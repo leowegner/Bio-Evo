@@ -303,6 +303,37 @@
     .answer-key li { margin-bottom:6px; font-size:.92rem; }
     .print-actions { text-align:center; margin:24px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
 
+    /* ── Modo examen ONLINE ── */
+    #exam-online { display:none; max-width:820px; margin:24px auto 0; }
+    #exam-online.show { display:block; }
+    .online-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:8px; }
+    .on-section-title { font-size:1.05rem; font-weight:800; color:#26c6da; border-bottom:2px solid rgba(38,198,218,.3); padding-bottom:6px; margin:28px 0 16px; }
+    .on-q { background:var(--card); border:1px solid rgba(255,255,255,.07); border-radius:var(--radius); padding:20px 24px; margin-bottom:16px; }
+    .on-q .on-q-text { font-weight:600; margin-bottom:12px; }
+    .on-case-box { background:var(--card2); border-left:4px solid #26a0b8; padding:12px 16px; margin:10px 0; font-style:italic; border-radius:6px; color:#c5c7e0; }
+    .on-opts { display:flex; flex-direction:column; gap:8px; }
+    .on-opt { display:flex; align-items:flex-start; gap:10px; background:var(--card2); border:2px solid rgba(255,255,255,.08); border-radius:10px; padding:10px 14px; cursor:pointer; transition:all .2s; }
+    .on-opt:hover { border-color:rgba(255,255,255,.22); }
+    .on-opt input { margin-top:4px; accent-color:#26c6da; flex-shrink:0; }
+    .on-opt.sel { border-color:#26c6da; background:rgba(38,198,218,.08); }
+    .on-opt.ok  { border-color:#4caf50; background:rgba(76,175,80,.14); }
+    .on-opt.ko  { border-color:#f44336; background:rgba(244,67,54,.14); }
+    .on-opt .mark { margin-left:auto; font-weight:800; }
+    .on-textarea { width:100%; background:var(--card2); border:2px solid rgba(255,255,255,.12); border-radius:10px; color:var(--text); padding:12px 14px; font-size:.95rem; font-family:inherit; resize:vertical; min-height:90px; outline:none; }
+    .on-textarea:focus { border-color:#26c6da; }
+    .model-answer { margin-top:12px; background:rgba(76,175,80,.08); border:1px solid rgba(76,175,80,.25); border-radius:10px; padding:12px 16px; font-size:.92rem; color:#c5c7e0; display:none; }
+    .model-answer.show { display:block; }
+    .model-answer .ma-label { font-size:.75rem; text-transform:uppercase; letter-spacing:.6px; font-weight:700; color:#81c784; margin-bottom:6px; }
+    .self-check { margin-top:10px; display:none; align-items:center; gap:12px; font-size:.88rem; }
+    .self-check.show { display:flex; }
+    .self-check button { background:var(--card2); border:2px solid rgba(255,255,255,.15); color:var(--text); border-radius:999px; padding:5px 14px; font-size:.82rem; cursor:pointer; }
+    .self-check button.sc-ok.active { border-color:#4caf50; background:rgba(76,175,80,.18); color:#81c784; }
+    .self-check button.sc-ko.active { border-color:#f44336; background:rgba(244,67,54,.18); color:#e57373; }
+    .online-result { display:none; background:var(--card); border-radius:var(--radius); padding:28px; text-align:center; border:1px solid rgba(255,255,255,.08); }
+    .online-result.show { display:block; }
+    .online-result .grade { font-size:3rem; font-weight:900; }
+    .online-result .grade-sub { color:var(--muted); margin-top:4px; }
+
     @media print {
       body * { visibility:hidden; }
       #exam-output, #exam-output * { visibility:visible; }
@@ -945,17 +976,23 @@
     </div>
     <div class="switch-row">
       <input type="checkbox" id="cfg-solucionario" checked>
-      <label for="cfg-solucionario">Incluir solucionario al final (en página aparte)</label>
+      <label for="cfg-solucionario">Incluir solucionario al final (solo en modo PDF, en página aparte)</label>
     </div>
-    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
-      <button class="gen-btn" onclick="generarExamen()">⚙️ Generar examen</button>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="gen-btn" onclick="generarExamen('online')">🖥️ Hacer examen online</button>
+      <button class="gen-btn secondary" onclick="generarExamen('pdf')">📄 Generar PDF imprimible</button>
     </div>
+    <p style="font-size:.82rem;color:var(--muted);margin-top:12px">
+      <strong>Online:</strong> respondes en la pantalla; corrige automáticamente el test y muestra las respuestas modelo de teoría y casos.
+      &nbsp;·&nbsp; <strong>PDF:</strong> hoja en blanco para imprimir o guardar como PDF.
+    </p>
   </div>
 
+  <!-- Salida modo PDF -->
   <div id="exam-output">
     <div class="print-actions no-print">
       <button class="gen-btn" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
-      <button class="gen-btn secondary" onclick="generarExamen()">🔄 Generar otro</button>
+      <button class="gen-btn secondary" onclick="volverConfig()">🔄 Nuevo examen</button>
     </div>
     <div class="exam-paper" id="exam-paper"></div>
     <div class="print-actions no-print">
@@ -964,6 +1001,22 @@
     <p class="no-print" style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:10px">
       Consejo: en el diálogo de impresión elige <strong>“Guardar como PDF”</strong> como destino. Desactiva encabezados/pies para una hoja más limpia.
     </p>
+  </div>
+
+  <!-- Salida modo ONLINE -->
+  <div id="exam-online">
+    <div class="online-head">
+      <div>
+        <h3 id="online-title" style="font-size:1.3rem">Examen online</h3>
+        <p style="color:var(--muted);font-size:.9rem">Responde a todas las preguntas y pulsa <strong>Corregir</strong>.</p>
+      </div>
+      <button class="gen-btn secondary" onclick="volverConfig()">🔄 Nuevo examen</button>
+    </div>
+    <div id="online-body"></div>
+    <div style="text-align:center;margin:28px 0">
+      <button class="gen-btn" id="btn-corregir" onclick="corregirOnline()">✓ Corregir examen</button>
+    </div>
+    <div id="online-result" class="online-result"></div>
   </div>
 </section>
 
@@ -1251,7 +1304,10 @@
     return s + '</div>';
   }
 
-  function generarExamen() {
+  // Estado del examen online en curso
+  let examenOnline = null;
+
+  function generarExamen(modo) {
     const nTest   = Math.max(0, parseInt(document.getElementById('cfg-test').value)   || 0);
     const nTeoria = Math.max(0, parseInt(document.getElementById('cfg-teoria').value) || 0);
     const nCasos  = Math.max(0, parseInt(document.getElementById('cfg-casos').value)  || 0);
@@ -1266,6 +1322,8 @@
       alert('Selecciona al menos una pregunta de algún tipo.');
       return;
     }
+
+    if (modo === 'online') { generarExamenOnline(test, teoria, casos, titulo); return; }
 
     const d = new Date();
     const fecha = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
@@ -1327,8 +1385,175 @@
     }
 
     document.getElementById('exam-paper').innerHTML = html;
+    document.getElementById('exam-output').classList.remove('show');
+    document.getElementById('exam-online').classList.remove('show');
     document.getElementById('exam-output').classList.add('show');
+    document.getElementById('exam-config').style.display = 'none';
     document.getElementById('exam-output').scrollIntoView({ behavior:'smooth' });
+  }
+
+  // ─── MODO ONLINE ───
+  function generarExamenOnline(test, teoria, casos, titulo) {
+    examenOnline = { test, teoria, casos };
+    document.getElementById('online-title').textContent = titulo;
+
+    let html = '';
+    let qn = 1;
+    const nums = { test:[], teoria:[], casos:[] };
+
+    if (test.length) {
+      html += `<div class="on-section-title">Parte I — Preguntas tipo test</div>`;
+      test.forEach((t, idx) => {
+        nums.test.push(qn);
+        html += `<div class="on-q" id="onq-${qn}"><div class="on-q-text">${qn}. ${t.q}</div><div class="on-opts">`;
+        t.opts.forEach((o, i) => {
+          html += `<label class="on-opt"><input type="radio" name="test-${idx}" value="${i}" onchange="markSel(this)"><span>${LETRAS[i]}) ${o}</span><span class="mark"></span></label>`;
+        });
+        html += `</div></div>`;
+        qn++;
+      });
+    }
+
+    if (teoria.length) {
+      html += `<div class="on-section-title">Parte II — Preguntas de teoría</div>`;
+      teoria.forEach((t, idx) => {
+        nums.teoria.push(qn);
+        html += `<div class="on-q" id="onq-${qn}"><div class="on-q-text">${qn}. ${t.q}</div>
+          <textarea class="on-textarea" id="ta-teoria-${idx}" placeholder="Escribe aquí tu respuesta…"></textarea>
+          <div class="model-answer" id="ma-teoria-${idx}"><div class="ma-label">✓ Respuesta modelo</div>${t.sol}</div>
+          <div class="self-check" id="sc-teoria-${idx}">
+            <span>Autoevaluación:</span>
+            <button class="sc-ok" onclick="selfCheck('teoria',${idx},true,this)">✓ La acerté</button>
+            <button class="sc-ko" onclick="selfCheck('teoria',${idx},false,this)">✗ Me equivoqué</button>
+          </div></div>`;
+        qn++;
+      });
+    }
+
+    if (casos.length) {
+      html += `<div class="on-section-title">Parte III — Casos prácticos de evolución</div>`;
+      casos.forEach((c, idx) => {
+        nums.casos.push(qn);
+        html += `<div class="on-q" id="onq-${qn}"><div class="on-q-text">${qn}. Lee el caso y responde:</div>
+          <div class="on-case-box">${c.caso}</div>
+          <div style="margin-bottom:8px"><strong>Se pide:</strong> ${c.pide}</div>
+          <textarea class="on-textarea" id="ta-casos-${idx}" placeholder="Explica el caso aquí…"></textarea>
+          <div class="model-answer" id="ma-casos-${idx}"><div class="ma-label">✓ Respuesta modelo</div>${c.sol}</div>
+          <div class="self-check" id="sc-casos-${idx}">
+            <span>Autoevaluación:</span>
+            <button class="sc-ok" onclick="selfCheck('casos',${idx},true,this)">✓ La acerté</button>
+            <button class="sc-ko" onclick="selfCheck('casos',${idx},false,this)">✗ Me equivoqué</button>
+          </div></div>`;
+        qn++;
+      });
+    }
+
+    examenOnline.nums = nums;
+    examenOnline.selfScores = { teoria:{}, casos:{} };
+
+    document.getElementById('online-body').innerHTML = html;
+    document.getElementById('online-result').classList.remove('show');
+    document.getElementById('btn-corregir').style.display = '';
+    document.getElementById('exam-config').style.display = 'none';
+    document.getElementById('exam-output').classList.remove('show');
+    document.getElementById('exam-online').classList.add('show');
+    document.getElementById('exam-online').scrollIntoView({ behavior:'smooth' });
+  }
+
+  function markSel(input) {
+    const group = input.closest('.on-opts');
+    group.querySelectorAll('.on-opt').forEach(l => l.classList.remove('sel'));
+    input.closest('.on-opt').classList.add('sel');
+  }
+
+  function selfCheck(tipo, idx, acerto, btn) {
+    examenOnline.selfScores[tipo][idx] = acerto;
+    const row = document.getElementById(`sc-${tipo}-${idx}`);
+    row.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    actualizarNota();
+  }
+
+  function corregirOnline() {
+    const { test, teoria, casos } = examenOnline;
+
+    // Corrige test automáticamente
+    examenOnline.testCorrect = 0;
+    test.forEach((t, idx) => {
+      const chosen = document.querySelector(`input[name="test-${idx}"]:checked`);
+      const labels = document.querySelectorAll(`input[name="test-${idx}"]`);
+      labels.forEach((inp, i) => {
+        const label = inp.closest('.on-opt');
+        label.classList.remove('sel');
+        inp.disabled = true;
+        if (i === t.correct) { label.classList.add('ok'); label.querySelector('.mark').textContent = '✓ Correcta'; }
+        if (chosen && parseInt(chosen.value) === i && i !== t.correct) {
+          label.classList.add('ko'); label.querySelector('.mark').textContent = '✗ Tu respuesta';
+        }
+      });
+      if (chosen && parseInt(chosen.value) === t.correct) examenOnline.testCorrect++;
+    });
+
+    // Muestra respuestas modelo + autoevaluación de teoría y casos
+    teoria.forEach((t, idx) => {
+      document.getElementById(`ma-teoria-${idx}`).classList.add('show');
+      document.getElementById(`sc-teoria-${idx}`).classList.add('show');
+      document.getElementById(`ta-teoria-${idx}`).readOnly = true;
+    });
+    casos.forEach((c, idx) => {
+      document.getElementById(`ma-casos-${idx}`).classList.add('show');
+      document.getElementById(`sc-casos-${idx}`).classList.add('show');
+      document.getElementById(`ta-casos-${idx}`).readOnly = true;
+    });
+
+    document.getElementById('btn-corregir').style.display = 'none';
+    mostrarResultado();
+  }
+
+  function mostrarResultado() {
+    const res = document.getElementById('online-result');
+    res.classList.add('show');
+    actualizarNota();
+    res.scrollIntoView({ behavior:'smooth' });
+  }
+
+  function actualizarNota() {
+    if (!examenOnline || examenOnline.testCorrect === undefined) return;
+    const { test, teoria, casos, selfScores } = examenOnline;
+    const teoriaOK = Object.values(selfScores.teoria).filter(v => v === true).length;
+    const casosOK  = Object.values(selfScores.casos).filter(v => v === true).length;
+
+    const totalPreg = test.length + teoria.length + casos.length;
+    const aciertos  = examenOnline.testCorrect + teoriaOK + casosOK;
+    const nota = totalPreg ? (aciertos / totalPreg * 10) : 0;
+
+    let color = nota >= 5 ? '#4caf50' : '#ff7043';
+    let msg;
+    if (nota >= 9) msg = '¡Excelente! Dominas la evolución 🧬';
+    else if (nota >= 7) msg = '¡Muy bien! Pequeños detalles por pulir.';
+    else if (nota >= 5) msg = 'Aprobado. Repasa lo que has fallado.';
+    else msg = 'Necesitas repasar. ¡Vuelve a la teoría y reinténtalo!';
+
+    const pendientes = (teoria.length + casos.length) - (Object.keys(selfScores.teoria).length + Object.keys(selfScores.casos).length);
+
+    document.getElementById('online-result').innerHTML = `
+      <div class="grade" style="color:${color}">${nota.toFixed(1)} / 10</div>
+      <div class="grade-sub">${msg}</div>
+      <div style="margin-top:18px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap;font-size:.92rem;color:var(--muted)">
+        <div>📝 Test: <strong style="color:var(--text)">${examenOnline.testCorrect}/${test.length}</strong></div>
+        <div>✍️ Teoría: <strong style="color:var(--text)">${teoriaOK}/${teoria.length}</strong></div>
+        <div>🔬 Casos: <strong style="color:var(--text)">${casosOK}/${casos.length}</strong></div>
+      </div>
+      ${pendientes > 0 ? `<p style="margin-top:14px;color:#ffb74d;font-size:.85rem">Te quedan ${pendientes} pregunta(s) de teoría/casos por autoevaluar. Compara tu respuesta con la modelo y marca si la acertaste para ajustar tu nota.</p>` : ''}
+      <button class="reset-btn" onclick="volverConfig()" style="margin-top:18px">↩ Hacer otro examen</button>
+    `;
+  }
+
+  function volverConfig() {
+    document.getElementById('exam-output').classList.remove('show');
+    document.getElementById('exam-online').classList.remove('show');
+    document.getElementById('exam-config').style.display = '';
+    document.getElementById('exam-config').scrollIntoView({ behavior:'smooth' });
   }
 </script>
 </body>
