@@ -1,21 +1,24 @@
-# 🧬 Evolución Biológica — 4º ESO
+# Biología y Geología 4º ESO — Web de estudio
 
-Web didáctica interactiva para aprender las tres grandes teorías de la evolución:
-**Lamarck**, **Darwin** y la **Teoría Sintética** (neodarwinismo).
+Web de repaso para el examen global, basada en el libro de **Felipe Sánchez Jiménez**.
+Cubre las **8 unidades** del temario:
 
-## ✨ Contenido
+1. Rocas, minerales y cristales
+2. Biomoléculas y células
+3. Divisiones celulares (mitosis y meiosis)
+4. Genética
+5. Estratigrafía, sedimentos y fósiles
+6. Historia de la Tierra
+7. Evolución
+8. Ecosistemas
 
-- **Teoría** explicada por bloques para cada modelo (principios, ejemplos, contexto histórico, límites).
-- **Comparación** lado a lado de las tres teorías, incluido el ejemplo de la jirafa.
-- **Ejercicios interactivos**: test de opción múltiple con feedback, arrastrar y soltar, y completar frases.
-- **Generador de exámenes en PDF**: crea exámenes imprimibles con preguntas de test, de teoría y casos prácticos (con líneas para escribir), y solucionario opcional para el profesor.
+## Cómo usarla
 
-## 🚀 Uso
+Abre `index.html` en cualquier navegador (doble clic). No necesita conexión ni instalar nada.
 
-Abre `index.html` en cualquier navegador. No requiere servidor ni dependencias.
+Cada unidad incluye:
+- **Resumen de teoría** con tablas y cuadros clave.
+- **Tarjetas de conceptos** (pulsa para revelar la respuesta).
+- **Test de autoevaluación** con corrección y explicación al instante.
 
-Para generar un examen: pestaña **📄 Generar examen** → configura el número de preguntas → **Generar** → **Imprimir / Guardar como PDF** (elige "Guardar como PDF" como destino de impresión).
-
-## 📄 Licencia
-
-Material educativo de uso libre.
+El menú lateral permite saltar entre unidades; en móvil se abre con el botón ☰.
