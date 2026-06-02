@@ -120,6 +120,12 @@ td{background:var(--card)}
 .diagram{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0}
 .diagram h4{margin:0 0 12px}
 .diagram svg{width:100%;height:auto;display:block;background:#0b0d14;border-radius:10px}
+.diagram img.book{width:100%;height:auto;display:block;background:#fff;border-radius:10px;padding:10px}
+.diagram .cap{font-size:.8rem;color:var(--muted);margin-top:8px;text-align:center}
+.figrow{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.figrow figure{flex:1 1 260px;margin:0;background:#fff;border-radius:10px;padding:8px}
+.figrow figure img{width:100%;height:auto;display:block}
+.figrow figcaption{font-size:.82rem;color:#333;text-align:center;margin-top:4px;font-weight:600}
 .diagram .lbl{font:600 13px 'Segoe UI',sans-serif;fill:#e9ebf5}
 .diagram .lead{stroke:#7f87ad;stroke-width:1.4}
 .diagram .num{font:700 12px sans-serif;fill:#0b0d14}
@@ -295,35 +301,9 @@ td{background:var(--card)}
   <div class="card key">🔑 Emparejamiento de bases (complementarias): <strong>A–T</strong> y <strong>G–C</strong> (en el ARN, A–U). El ADN distendido = <strong>cromatina</strong>; muy enrollado en la división = <strong>cromosomas</strong>.</div>
 
   <div class="diagram">
-    <h4>Estructura del ADN — identifica las partes</h4>
-    <svg viewBox="0 0 640 300" role="img" aria-label="Estructura del ADN">
-      <!-- backbones -->
-      <path d="M120 20 C200 70,200 130,120 180 C200 230,200 290,120 280" fill="none" stroke="#4d96d1" stroke-width="9" stroke-linecap="round"/>
-      <path d="M300 20 C220 70,220 130,300 180 C220 230,220 290,300 280" fill="none" stroke="#4d96d1" stroke-width="9" stroke-linecap="round"/>
-      <!-- rungs (base pairs) -->
-      <g stroke-width="7" stroke-linecap="round">
-        <line x1="150" y1="40" x2="270" y2="40" stroke="#e07a5f"/>
-        <line x1="172" y1="75" x2="248" y2="75" stroke="#3aa675"/>
-        <line x1="180" y1="110" x2="240" y2="110" stroke="#e6b800"/>
-        <line x1="172" y1="148" x2="248" y2="148" stroke="#e07a5f"/>
-        <line x1="172" y1="205" x2="248" y2="205" stroke="#3aa675"/>
-        <line x1="180" y1="240" x2="240" y2="240" stroke="#e6b800"/>
-      </g>
-      <!-- half-rung markers for sugar/phosphate/base callout -->
-      <circle cx="210" cy="110" r="6" fill="#fff"/>
-      <!-- leaders + labels -->
-      <line class="lead" x1="120" y1="180" x2="40" y2="180"/>
-      <text class="lbl" x="36" y="184" text-anchor="end">Esqueleto de</text>
-      <text class="lbl" x="36" y="200" text-anchor="end">fosfato + pentosa</text>
-      <line class="lead" x1="210" y1="110" x2="470" y2="95"/>
-      <text class="lbl" x="476" y="92">Par de bases nitrogenadas</text>
-      <text class="lbl" x="476" y="110" fill="#9aa0bd">(unidas por puentes de H)</text>
-      <line class="lead" x1="300" y1="40" x2="470" y2="180"/>
-      <text class="lbl" x="476" y="184">Doble hélice</text>
-      <line class="lead" x1="270" y1="240" x2="470" y2="250"/>
-      <text class="lbl" x="476" y="254">Emparejamiento:</text>
-      <text class="lbl" x="476" y="272" fill="#9aa0bd">A–T  ·  G–C</text>
-    </svg>
+    <h4>Estructura del ADN</h4>
+    <img class="book" src="img/adn.png" alt="Esquema del ADN: doble hélice y detalle de los nucleótidos con sus puentes de hidrógeno" loading="lazy">
+    <div class="cap">Doble hélice (izq.) y detalle de los nucleótidos (der.): esqueleto fosfato + pentosa, bases unidas por puentes de hidrógeno (A–T, G–C).</div>
     <div class="legend">
       <span><b>Pentosa</b>desoxirribosa (ADN) / ribosa (ARN)</span>
       <span><b>Nucleótido</b>fosfato + pentosa + base</span>
@@ -513,6 +493,16 @@ td{background:var(--card)}
     <li><strong>Citocinesis:</strong> división del citoplasma → 2 células.</li>
   </ol>
 
+  <div class="diagram">
+    <h4>Fases de la mitosis (dibujos del libro)</h4>
+    <div class="figrow">
+      <figure><img src="img/mitosis-profase.png" alt="Profase" loading="lazy"><figcaption>Profase</figcaption></figure>
+      <figure><img src="img/mitosis-metafase.png" alt="Metafase" loading="lazy"><figcaption>Metafase</figcaption></figure>
+      <figure><img src="img/mitosis-anafase.png" alt="Anafase" loading="lazy"><figcaption>Anafase</figcaption></figure>
+    </div>
+    <div class="cap">Fíjate: en profase la cromatina se condensa y desaparece el núcleo; en metafase los cromosomas se alinean en el ecuador; en anafase las cromátidas se separan a los polos.</div>
+  </div>
+
   <h3>Meiosis</h3>
   <p>División especial para formar <strong>gametos</strong>. <strong>Dos divisiones consecutivas → 4 células haploides</strong> con ADN diferente. Empieza con interfase (célula 4n).</p>
   <div class="card tip">
@@ -641,6 +631,22 @@ td{background:var(--card)}
   </ul>
   <div class="def"><b>Discordancias:</b> lo que NO debería existir si no hubiera pasado nada (estratos inclinados, materiales que faltan…). Permiten reconstruir la historia.</div>
   <p>Ejemplo de interpretación: 1) depósito de estratos → 2) plegamiento → 3) erosión de la capa superior.</p>
+
+  <div class="diagram">
+    <h4>Corte geológico de ejemplo (libro)</h4>
+    <img class="book" src="img/corte-u5-ejemplo.png" alt="Corte geológico con estratos plegados y erosionados" loading="lazy">
+    <div class="cap">Las discordancias: los estratos no están horizontales (hay un pliegue) y a la parte superior le faltan materiales (erosión).</div>
+  </div>
+
+  <div class="diagram">
+    <h4>Practica: interpreta estos cortes (ejercicios del libro)</h4>
+    <div class="figrow">
+      <figure><img src="img/corte-u5-ej1.png" alt="Corte geológico ejercicio 1" loading="lazy"><figcaption>Ejercicio 1</figcaption></figure>
+      <figure><img src="img/corte-u5-ej2a.png" alt="Corte geológico ejercicio 2" loading="lazy"><figcaption>Ejercicio 2</figcaption></figure>
+      <figure><img src="img/corte-u5-ej2b.png" alt="Corte geológico ejercicio 3" loading="lazy"><figcaption>Ejercicio 3</figcaption></figure>
+    </div>
+    <div class="cap">Ordena los sucesos de abajo a arriba (superposición) y describe las discordancias que veas.</div>
+  </div>
 
   <h3>Fósiles en estratos</h3>
   <p>Un fósil aporta mucha información: el estrato se formó cuando murió el ser vivo; si era marino, esa zona estuvo bajo el mar (¡fósiles de erizo en los Pirineos!).</p>
