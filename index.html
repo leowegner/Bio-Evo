@@ -115,6 +115,29 @@ td{background:var(--card)}
 }
 .scrolltop{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;width:46px;height:46px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:none;z-index:30}
 .scrolltop.show{display:block}
+
+/* diagrams */
+.diagram{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0}
+.diagram h4{margin:0 0 12px}
+.diagram svg{width:100%;height:auto;display:block;background:#0b0d14;border-radius:10px}
+.diagram .lbl{font:600 13px 'Segoe UI',sans-serif;fill:#e9ebf5}
+.diagram .lead{stroke:#7f87ad;stroke-width:1.4}
+.diagram .num{font:700 12px sans-serif;fill:#0b0d14}
+.legend{display:flex;flex-wrap:wrap;gap:6px 10px;margin-top:12px;font-size:.86rem}
+.legend span{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:3px 9px;color:#cfd3ee}
+.legend b{color:var(--accent);margin-right:5px}
+
+/* identify exercise */
+.ident{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0}
+.ident .prompt{font-weight:600;margin-bottom:8px}
+.ident .prompt b{color:var(--u4)}
+.ident svg{width:100%;height:auto;background:#0b0d14;border-radius:10px}
+.ident .hot{cursor:pointer;transition:.12s}
+.ident .hot:hover{stroke:#fff;stroke-width:2}
+.ident .feedback{margin-top:10px;min-height:1.4em;font-weight:600}
+.ident .feedback.ok{color:#6ddca0}
+.ident .feedback.no{color:#f0a890}
+.ident .score{float:right;color:var(--muted);font-weight:400;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -271,6 +294,43 @@ td{background:var(--card)}
   </table>
   <div class="card key">🔑 Emparejamiento de bases (complementarias): <strong>A–T</strong> y <strong>G–C</strong> (en el ARN, A–U). El ADN distendido = <strong>cromatina</strong>; muy enrollado en la división = <strong>cromosomas</strong>.</div>
 
+  <div class="diagram">
+    <h4>Estructura del ADN — identifica las partes</h4>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Estructura del ADN">
+      <!-- backbones -->
+      <path d="M120 20 C200 70,200 130,120 180 C200 230,200 290,120 280" fill="none" stroke="#4d96d1" stroke-width="9" stroke-linecap="round"/>
+      <path d="M300 20 C220 70,220 130,300 180 C220 230,220 290,300 280" fill="none" stroke="#4d96d1" stroke-width="9" stroke-linecap="round"/>
+      <!-- rungs (base pairs) -->
+      <g stroke-width="7" stroke-linecap="round">
+        <line x1="150" y1="40" x2="270" y2="40" stroke="#e07a5f"/>
+        <line x1="172" y1="75" x2="248" y2="75" stroke="#3aa675"/>
+        <line x1="180" y1="110" x2="240" y2="110" stroke="#e6b800"/>
+        <line x1="172" y1="148" x2="248" y2="148" stroke="#e07a5f"/>
+        <line x1="172" y1="205" x2="248" y2="205" stroke="#3aa675"/>
+        <line x1="180" y1="240" x2="240" y2="240" stroke="#e6b800"/>
+      </g>
+      <!-- half-rung markers for sugar/phosphate/base callout -->
+      <circle cx="210" cy="110" r="6" fill="#fff"/>
+      <!-- leaders + labels -->
+      <line class="lead" x1="120" y1="180" x2="40" y2="180"/>
+      <text class="lbl" x="36" y="184" text-anchor="end">Esqueleto de</text>
+      <text class="lbl" x="36" y="200" text-anchor="end">fosfato + pentosa</text>
+      <line class="lead" x1="210" y1="110" x2="470" y2="95"/>
+      <text class="lbl" x="476" y="92">Par de bases nitrogenadas</text>
+      <text class="lbl" x="476" y="110" fill="#9aa0bd">(unidas por puentes de H)</text>
+      <line class="lead" x1="300" y1="40" x2="470" y2="180"/>
+      <text class="lbl" x="476" y="184">Doble hélice</text>
+      <line class="lead" x1="270" y1="240" x2="470" y2="250"/>
+      <text class="lbl" x="476" y="254">Emparejamiento:</text>
+      <text class="lbl" x="476" y="272" fill="#9aa0bd">A–T  ·  G–C</text>
+    </svg>
+    <div class="legend">
+      <span><b>Pentosa</b>desoxirribosa (ADN) / ribosa (ARN)</span>
+      <span><b>Nucleótido</b>fosfato + pentosa + base</span>
+      <span><b>Bases ADN</b>A, T, G, C</span>
+    </div>
+  </div>
+
   <h3>La célula</h3>
   <p><strong>Teoría celular</strong> (s. XIX): (1) todos los seres vivos están formados por células; (2) la célula es la unidad fisiológica; (3) toda célula procede de otra por división; (4) [añadido] el material genético pasa de una célula a otra en la división. Robert Hooke acuñó "célula" al observar corcho.</p>
   <table>
@@ -297,6 +357,128 @@ td{background:var(--card)}
     <li><strong>Mitocondrias</strong> — todas las eucariotas, respiración celular (energía).</li>
     <li><strong>Núcleo</strong> — doble membrana con poros, contiene el ADN.</li>
   </ul>
+
+  <h3>Diagramas: identifica las partes</h3>
+
+  <div class="diagram">
+    <h4>Célula animal</h4>
+    <svg viewBox="0 0 560 360" role="img" aria-label="Célula animal">
+      <ellipse cx="270" cy="180" rx="240" ry="160" fill="#22314a" stroke="#4d96d1" stroke-width="4"/>
+      <!-- núcleo -->
+      <circle cx="250" cy="170" r="62" fill="#7e57c2" opacity=".85"/>
+      <circle cx="250" cy="170" r="62" fill="none" stroke="#b39ddb" stroke-width="5" stroke-dasharray="6 5"/>
+      <circle cx="265" cy="160" r="16" fill="#5e35a8"/>
+      <!-- mitocondrias -->
+      <ellipse cx="120" cy="110" rx="34" ry="16" fill="#e07a5f" transform="rotate(-20 120 110)"/>
+      <ellipse cx="400" cy="260" rx="34" ry="16" fill="#e07a5f" transform="rotate(25 400 260)"/>
+      <!-- RER -->
+      <path d="M160 250 q40 -10 80 0 q40 10 80 0" fill="none" stroke="#3aa675" stroke-width="7"/>
+      <circle cx="170" cy="248" r="3.5" fill="#fff"/><circle cx="210" cy="252" r="3.5" fill="#fff"/><circle cx="250" cy="252" r="3.5" fill="#fff"/><circle cx="300" cy="250" r="3.5" fill="#fff"/>
+      <!-- Golgi -->
+      <g stroke="#e6b800" stroke-width="6" fill="none" stroke-linecap="round">
+        <path d="M360 110 q30 -12 60 0"/><path d="M362 124 q30 -12 56 0"/><path d="M364 138 q28 -12 52 0"/>
+      </g>
+      <!-- ribosomas libres -->
+      <circle cx="180" cy="180" r="4" fill="#fff"/><circle cx="330" cy="200" r="4" fill="#fff"/><circle cx="300" cy="120" r="4" fill="#fff"/>
+      <!-- centrosoma -->
+      <g stroke="#9aa0bd" stroke-width="4"><line x1="150" y1="300" x2="172" y2="300"/><line x1="161" y1="290" x2="161" y2="310"/></g>
+      <!-- leaders -->
+      <line class="lead" x1="250" y1="170" x2="250" y2="40"/><text class="lbl" x="250" y="34" text-anchor="middle">Núcleo</text>
+      <line class="lead" x1="120" y1="110" x2="60" y2="50"/><text class="lbl" x="56" y="46" text-anchor="end">Mitocondria</text>
+      <line class="lead" x1="240" y1="252" x2="240" y2="338"/><text class="lbl" x="240" y="352" text-anchor="middle">RER (con ribosomas)</text>
+      <line class="lead" x1="390" y1="120" x2="470" y2="70"/><text class="lbl" x="476" y="74">Aparato de Golgi</text>
+      <line class="lead" x1="510" y1="180" x2="540" y2="180"/><text class="lbl" x="476" y="160">Membrana</text>
+      <line class="lead" x1="161" y1="300" x2="80" y2="320"/><text class="lbl" x="76" y="324" text-anchor="end">Centrosoma</text>
+    </svg>
+    <div class="legend">
+      <span><b>Exclusivo animal</b>centrosoma (centriolos)</span>
+      <span><b>Ojo</b>NO tiene pared ni cloroplastos</span>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <h4>Célula vegetal</h4>
+    <svg viewBox="0 0 560 360" role="img" aria-label="Célula vegetal">
+      <!-- pared + membrana -->
+      <rect x="30" y="30" width="500" height="300" rx="18" fill="#1f3322" stroke="#5cb85c" stroke-width="10"/>
+      <rect x="46" y="46" width="468" height="268" rx="12" fill="#24402b" stroke="#3aa675" stroke-width="3"/>
+      <!-- vacuola grande -->
+      <ellipse cx="250" cy="190" rx="150" ry="100" fill="#2e5fa0" opacity=".5" stroke="#4d96d1" stroke-width="3"/>
+      <!-- núcleo -->
+      <circle cx="120" cy="120" r="46" fill="#7e57c2" opacity=".85"/>
+      <circle cx="120" cy="120" r="46" fill="none" stroke="#b39ddb" stroke-width="4" stroke-dasharray="6 5"/>
+      <!-- cloroplastos -->
+      <ellipse cx="420" cy="110" rx="34" ry="16" fill="#3aa675" transform="rotate(20 420 110)"/>
+      <ellipse cx="420" cy="260" rx="34" ry="16" fill="#3aa675" transform="rotate(-20 420 260)"/>
+      <ellipse cx="110" cy="270" rx="34" ry="16" fill="#3aa675" transform="rotate(15 110 270)"/>
+      <!-- mitocondria -->
+      <ellipse cx="190" cy="290" rx="28" ry="13" fill="#e07a5f" transform="rotate(10 190 290)"/>
+      <!-- leaders -->
+      <line class="lead" x1="40" y1="35" x2="40" y2="14"/><text class="lbl" x="40" y="12" text-anchor="middle">Pared celular</text>
+      <line class="lead" x1="120" y1="120" x2="60" y2="60"/><text class="lbl" x="56" y="56" text-anchor="end">Núcleo</text>
+      <line class="lead" x1="300" y1="240" x2="300" y2="352"/><text class="lbl" x="300" y="350" text-anchor="middle">Vacuola central (grande)</text>
+      <line class="lead" x1="420" y1="110" x2="500" y2="70"/><text class="lbl" x="476" y="66">Cloroplasto</text>
+      <line class="lead" x1="190" y1="290" x2="150" y2="350"/><text class="lbl" x="146" y="354" text-anchor="end">Mitocondria</text>
+    </svg>
+    <div class="legend">
+      <span><b>Exclusivos vegetal</b>pared celular · cloroplastos</span>
+      <span><b>+</b>vacuola muy grande</span>
+      <span><b>NO tiene</b>centriolos</span>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <h4>Membrana plasmática</h4>
+    <svg viewBox="0 0 560 230" role="img" aria-label="Membrana plasmática">
+      <!-- heads top -->
+      <g fill="#e6b800">
+        <circle cx="40" cy="70" r="11"/><circle cx="80" cy="70" r="11"/><circle cx="160" cy="70" r="11"/><circle cx="240" cy="70" r="11"/><circle cx="320" cy="70" r="11"/><circle cx="400" cy="70" r="11"/><circle cx="480" cy="70" r="11"/><circle cx="520" cy="70" r="11"/>
+      </g>
+      <!-- tails top -->
+      <g stroke="#caa53a" stroke-width="3">
+        <line x1="40" y1="80" x2="40" y2="110"/><line x1="80" y1="80" x2="80" y2="110"/><line x1="160" y1="80" x2="160" y2="110"/><line x1="240" y1="80" x2="240" y2="110"/><line x1="320" y1="80" x2="320" y2="110"/><line x1="400" y1="80" x2="400" y2="110"/><line x1="480" y1="80" x2="480" y2="110"/><line x1="520" y1="80" x2="520" y2="110"/>
+      </g>
+      <!-- tails bottom -->
+      <g stroke="#caa53a" stroke-width="3">
+        <line x1="40" y1="120" x2="40" y2="150"/><line x1="80" y1="120" x2="80" y2="150"/><line x1="160" y1="120" x2="160" y2="150"/><line x1="240" y1="120" x2="240" y2="150"/><line x1="320" y1="120" x2="320" y2="150"/><line x1="400" y1="120" x2="400" y2="150"/><line x1="480" y1="120" x2="480" y2="150"/><line x1="520" y1="120" x2="520" y2="150"/>
+      </g>
+      <!-- heads bottom -->
+      <g fill="#e6b800">
+        <circle cx="40" cy="160" r="11"/><circle cx="80" cy="160" r="11"/><circle cx="160" cy="160" r="11"/><circle cx="240" cy="160" r="11"/><circle cx="320" cy="160" r="11"/><circle cx="400" cy="160" r="11"/><circle cx="480" cy="160" r="11"/><circle cx="520" cy="160" r="11"/>
+      </g>
+      <!-- protein -->
+      <rect x="110" y="55" width="34" height="120" rx="14" fill="#4d96d1"/>
+      <rect x="350" y="55" width="34" height="120" rx="14" fill="#4d96d1"/>
+      <!-- glucid -->
+      <g stroke="#5cb85c" stroke-width="3" fill="none"><path d="M127 55 l-8 -18 l14 -8"/></g>
+      <circle cx="111" cy="27" r="6" fill="#5cb85c"/>
+      <!-- labels -->
+      <line class="lead" x1="120" y1="70" x2="120" y2="40"/><text class="lbl" x="120" y="22" text-anchor="middle">Glúcido (exterior)</text>
+      <line class="lead" x1="240" y1="70" x2="240" y2="40"/><text class="lbl" x="240" y="34" text-anchor="middle">Cabezas (fosfato)</text>
+      <line class="lead" x1="367" y1="115" x2="490" y2="115"/><text class="lbl" x="476" y="200" text-anchor="end">Proteína</text>
+      <line class="lead" x1="320" y1="135" x2="320" y2="200"/><text class="lbl" x="320" y="216" text-anchor="middle">Colas (lípido) — bicapa</text>
+    </svg>
+    <div class="legend"><span><b>Recuerda</b>bicapa de fosfolípidos + proteínas + glúcidos en la cara externa</span></div>
+  </div>
+
+  <div class="ident" id="ident-cell">
+    <div class="prompt">Ejercicio: pulsa el orgánulo <b id="ident-target">—</b> <span class="score" id="ident-score">0 / 0</span></div>
+    <svg viewBox="0 0 560 320" role="img" aria-label="Identifica el orgánulo">
+      <ellipse cx="280" cy="160" rx="250" ry="150" fill="#22314a" stroke="#4d96d1" stroke-width="4" class="hot" data-name="Membrana plasmática"/>
+      <circle cx="250" cy="150" r="58" fill="#7e57c2" class="hot" data-name="Núcleo"/>
+      <ellipse cx="120" cy="100" rx="34" ry="16" fill="#e07a5f" class="hot" data-name="Mitocondria" transform="rotate(-20 120 100)"/>
+      <ellipse cx="420" cy="230" rx="34" ry="16" fill="#e07a5f" class="hot" data-name="Mitocondria" transform="rotate(25 420 230)"/>
+      <g class="hot" data-name="Aparato de Golgi">
+        <path d="M360 90 q30 -12 60 0" fill="none" stroke="#e6b800" stroke-width="6"/>
+        <path d="M362 104 q30 -12 56 0" fill="none" stroke="#e6b800" stroke-width="6"/>
+        <path d="M364 118 q28 -12 52 0" fill="none" stroke="#e6b800" stroke-width="6"/>
+      </g>
+      <g class="hot" data-name="Retículo endoplasmático rugoso">
+        <path d="M170 250 q50 -12 100 0 q50 12 90 0" fill="none" stroke="#3aa675" stroke-width="7"/>
+      </g>
+    </svg>
+    <div class="feedback" id="ident-fb">Pulsa la parte que se te pide arriba.</div>
+  </div>
 
   <h3>Tarjetas de conceptos clave</h3>
   <div id="rev-u2"></div>
@@ -833,6 +1015,33 @@ for(const u in quiz){
     cont.appendChild(qd);
   });
 }
+
+/* ---------- IDENTIFY ORGANELLE EXERCISE ---------- */
+(function(){
+  const box=document.getElementById('ident-cell');
+  if(!box)return;
+  const targetEl=document.getElementById('ident-target');
+  const fb=document.getElementById('ident-fb');
+  const scoreEl=document.getElementById('ident-score');
+  const hots=[...box.querySelectorAll('.hot')];
+  const names=[...new Set(hots.map(h=>h.dataset.name))];
+  let want='', hits=0, tries=0;
+  function next(){
+    want=names[Math.floor(Math.random()*names.length)];
+    targetEl.textContent=want;
+    fb.textContent='Pulsa la parte que se te pide arriba.';
+    fb.className='feedback';
+  }
+  hots.forEach(h=>h.addEventListener('click',()=>{
+    tries++;
+    if(h.dataset.name===want){hits++;fb.textContent='✓ ¡Correcto! Es '+want+'.';fb.className='feedback ok';}
+    else{fb.textContent='✗ Eso es: '+h.dataset.name+'. Buscabas '+want+'.';fb.className='feedback no';}
+    scoreEl.textContent=hits+' / '+tries;
+    setTimeout(next,1100);
+  }));
+  next();
+})();
+
 updateProgress();
 </script>
 </body>
