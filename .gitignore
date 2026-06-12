@@ -1,2 +1,5 @@
 *.pdf
 _extract/
+.DS_Store
+img/among-ejected.png
+img/among-player.png

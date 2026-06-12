@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Among Us — Escape Room Bio &amp; Geo 4º ESO</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0f1a;
+  --space:#0a0c16;
+  --panel:#111427;
+  --card:#171b2e;
+  --card2:#1d2238;
+  --text:#e9ebf5;
+  --muted:#7a82a6;
+  --line:#252d47;
+  --green:#3aa675;
+  --red:#e07a5f;
+  --yellow:#e6b800;
+  --blue:#4d96d1;
+  --purple:#7e57c2;
+  --teal:#2ea3a3;
+  --among-red:#c51111;
+  --among-blue:#132ed2;
+  --among-cyan:#38fedc;
+  --among-lime:#50ef39;
+  --radius:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;overflow-x:hidden}
+
+/* ── STARS BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(1px 1px at 10% 15%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 40%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 40% 8%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 55% 60%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 25%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 85% 75%,rgba(255,255,255,.8) 0%,transparent 100%),
+    radial-gradient(1px 1px at 92% 10%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 80%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 90%,#fff 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 55%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 78% 45%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 5% 50%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(2px 2px at 48% 30%,rgba(200,220,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 55%,#fff 0%,transparent 100%),
+    radial-gradient(1px 1px at 20% 95%,rgba(255,255,255,.5) 0%,transparent 100%),
+    var(--space);
+}
+
+/* ── CREWMATE TINTS ── */
+.crewmate{display:inline-block;position:relative;image-rendering:pixelated}
+.crewmate img{display:block}
+.crew-red img{filter:hue-rotate(0deg) saturate(1.8) brightness(.9) drop-shadow(0 0 6px rgba(197,17,17,.5))}
+.crew-blue img{filter:hue-rotate(220deg) saturate(2) brightness(.85) drop-shadow(0 0 6px rgba(19,46,210,.5))}
+.crew-cyan img{filter:hue-rotate(165deg) saturate(1.5) brightness(1.1) drop-shadow(0 0 6px rgba(56,254,220,.5))}
+.crew-lime img{filter:hue-rotate(100deg) saturate(1.8) brightness(1.1) drop-shadow(0 0 6px rgba(80,239,57,.5))}
+.crew-purple img{filter:hue-rotate(270deg) saturate(1.6) brightness(.9) drop-shadow(0 0 6px rgba(126,87,194,.5))}
+.crew-yellow img{filter:hue-rotate(45deg) saturate(2) brightness(1.1) drop-shadow(0 0 6px rgba(230,184,0,.4))}
+.crew-orange img{filter:hue-rotate(25deg) saturate(2) brightness(1) drop-shadow(0 0 6px rgba(240,125,13,.5))}
+.crew-pink img{filter:hue-rotate(320deg) saturate(1.4) brightness(1.1) drop-shadow(0 0 6px rgba(237,84,186,.5))}
+
+/* ── FLOATING CREW ── */
+.crew-corner,.crew-left{position:fixed;bottom:20px;z-index:5;image-rendering:pixelated;opacity:.7;width:56px;animation:bob 2.1s ease-in-out infinite alternate}
+.crew-corner{right:20px;filter:hue-rotate(0deg) saturate(1.8) drop-shadow(0 0 6px rgba(197,17,17,.5))}
+.crew-left{left:20px;width:50px;animation-duration:2.5s;filter:hue-rotate(220deg) saturate(2) drop-shadow(0 0 6px rgba(19,46,210,.5))}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+@media(max-width:600px){.crew-corner,.crew-left{display:none}}
+
+/* ── INTRO ── */
+#intro{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px 24px}
+.intro-crew-row{display:flex;gap:18px;justify-content:center;margin:18px 0;flex-wrap:wrap}
+.crew-bounce{animation:bob 1.2s ease-in-out infinite alternate}
+.crew-bounce:nth-child(2){animation-delay:.15s}
+.crew-bounce:nth-child(3){animation-delay:.3s}
+.crew-bounce:nth-child(4){animation-delay:.45s}
+
+#intro h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;letter-spacing:-1px;margin-bottom:8px;line-height:1.1}
+#intro h1 .red{color:var(--among-red)}
+#intro h1 .cyan{color:var(--among-cyan)}
+.subtitle{color:var(--muted);max-width:540px;font-size:1rem;margin-bottom:4px}
+
+.emergency-panel{
+  background:linear-gradient(135deg,#1a0808,#2a0a0a);border:2px solid var(--among-red);
+  border-radius:var(--radius);padding:24px 28px;max-width:560px;text-align:left;margin:20px 0;
+  position:relative;box-shadow:0 0 30px rgba(197,17,17,.3);
+}
+.emergency-panel::before{content:"⚠️ EMERGENCIA";font-size:.7rem;font-weight:900;letter-spacing:3px;color:var(--among-red);position:absolute;top:-12px;left:16px;background:#1a0808;padding:0 8px}
+.emergency-panel p{color:#e8c0c0;font-style:italic;margin:6px 0}
+.emergency-panel .firma{margin-top:12px;font-weight:700;color:var(--among-cyan);font-style:normal}
+
+.code-strip{display:flex;gap:6px;margin:20px 0;flex-wrap:wrap;justify-content:center;align-items:center}
+.code-box{width:50px;height:58px;background:var(--card);border:2px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;color:var(--muted);font-family:monospace;transition:all .4s}
+.code-box.filled{border-color:var(--blue);color:var(--text)}
+.code-box.correct{border-color:var(--among-cyan);color:var(--among-cyan);background:rgba(56,254,220,.08);box-shadow:0 0 10px rgba(56,254,220,.2)}
+.code-sep{color:var(--muted);font-size:1.2rem;padding:0 2px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--among-red),#8b0000);color:#fff;font-size:1rem;font-weight:700;padding:13px 30px;border-radius:40px;border:none;cursor:pointer;letter-spacing:.3px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(197,17,17,.4)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(197,17,17,.5)}
+.btn:active{transform:translateY(0)}
+.btn.green-btn{background:linear-gradient(135deg,var(--green),var(--teal));box-shadow:0 4px 20px rgba(58,166,117,.3)}
+.btn.green-btn:hover{box-shadow:0 8px 28px rgba(58,166,117,.4)}
+
+/* ── TOPBAR ── */
+.topbar{background:rgba(10,12,22,.9);backdrop-filter:blur(10px);border-bottom:2px solid var(--among-red);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-crew{width:32px;height:auto;image-rendering:pixelated;filter:hue-rotate(0deg) saturate(1.8)}
+.topbar h2{font-size:.95rem;font-weight:700;color:var(--text)}
+.ch-sub{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+.timer{font-family:monospace;font-size:1.15rem;font-weight:900;color:var(--among-cyan);min-width:60px;text-align:right}
+.progress-dots{display:flex;gap:8px}
+.dot{width:13px;height:13px;border-radius:50%;background:var(--card2);border:2px solid var(--line);transition:all .3s}
+.dot.done{background:var(--green);border-color:var(--green)}
+.dot.active{background:var(--among-red);border-color:var(--among-red);box-shadow:0 0 8px var(--among-red)}
+
+/* ── GAME LAYOUT ── */
+#game{display:none;min-height:100vh}
+.game-content{max-width:800px;margin:0 auto;padding:32px 20px 80px}
+
+/* ── CHALLENGE ── */
+.challenge{display:none;animation:fadeIn .3s}
+.challenge.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.ch-hero{display:flex;align-items:center;gap:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+.ch-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(197,17,17,.06),transparent 60%);pointer-events:none}
+.ch-hero .crew-scene{display:flex;flex-shrink:0}
+.ch-hero-text .ch-num{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--among-red);font-weight:700}
+.ch-hero-text .ch-title{font-size:1.6rem;font-weight:900;letter-spacing:-.5px;margin:2px 0 6px}
+.ch-story{color:#c0c4d8;font-style:italic;font-size:.95rem}
+.ch-bar{height:3px;border-radius:2px;margin:0 0 20px;background:var(--among-red)}
+
+/* ── PUZZLE BOX ── */
+.puzzle-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+.puzzle-box h4{font-size:.98rem;font-weight:700;margin-bottom:12px;color:var(--text);display:flex;align-items:center;gap:8px}
+.puzzle-box h4::before{content:'';width:4px;height:18px;background:var(--among-red);border-radius:2px;flex-shrink:0}
+.locked{opacity:.4;pointer-events:none;transition:opacity .4s}
+
+/* ── OPTIONS ── */
+.puzzle-q{margin:10px 0 6px;font-weight:600;color:#d0d4ef;font-size:.97rem}
+.options{display:flex;flex-direction:column;gap:8px;margin:8px 0 14px}
+.opt{display:flex;align-items:center;gap:12px;background:var(--card2);border:2px solid var(--line);border-radius:10px;padding:11px 15px;cursor:pointer;transition:all .18s;font-size:.94rem}
+.opt:hover{border-color:var(--blue);background:rgba(77,150,209,.08)}
+.opt.selected{border-color:var(--blue);background:rgba(77,150,209,.12)}
+.opt .lt{width:26px;height:26px;border-radius:6px;background:var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0}
+
+/* ── RESULT HINTS ── */
+.result-hint{border-radius:10px;padding:11px 15px;margin:10px 0;display:none;font-weight:600;font-size:.93rem;background:rgba(58,166,117,.08);border:1px solid var(--green);color:var(--green)}
+.result-hint.show{display:block}
+.result-hint.err{background:rgba(224,122,95,.08);border-color:var(--red);color:var(--red)}
+
+/* ── DRAG & DROP ── */
+.drag-pool{display:flex;flex-wrap:wrap;gap:8px;min-height:54px;padding:10px;background:rgba(255,255,255,.025);border:2px dashed var(--line);border-radius:10px;margin:10px 0;transition:border-color .2s}
+.drag-pool.over{border-color:var(--blue)}
+.drag-item{background:var(--card2);border:2px solid var(--line);border-radius:8px;padding:7px 13px;cursor:grab;user-select:none;font-weight:600;font-size:.9rem;transition:all .18s;display:flex;align-items:center;gap:6px}
+.drag-item:hover{border-color:var(--among-cyan);transform:scale(1.04)}
+.drag-item.dragging{opacity:.35}
+.drop-zones{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.drop-zone{border:2px dashed var(--muted);border-radius:10px;min-height:80px;padding:8px;transition:all .2s}
+.drop-zone.over{border-color:var(--among-cyan);background:rgba(56,254,220,.04)}
+.zone-label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;font-weight:700;text-align:center;margin-bottom:6px}
+
+/* ── MATCH ── */
+.match-area{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.match-col{display:flex;flex-direction:column;gap:8px}
+.match-item{background:var(--card2);border:2px solid var(--line);border-radius:10px;padding:9px 13px;cursor:pointer;transition:all .18s;font-size:.9rem;line-height:1.4}
+.match-item:hover{border-color:var(--blue)}
+.match-item.active{border-color:var(--yellow);background:rgba(230,184,0,.09)}
+.match-item.paired{border-color:var(--green);background:rgba(58,166,117,.1);cursor:default}
+.match-item.wrong-pair{border-color:var(--red);background:rgba(224,122,95,.1)}
+
+/* ── SORTABLE ── */
+.sort-list{display:flex;flex-direction:column;gap:8px}
+.sort-item{background:var(--card2);border:2px solid var(--line);border-radius:10px;padding:11px 15px;cursor:grab;user-select:none;transition:all .18s;display:flex;align-items:center;gap:12px;font-size:.93rem}
+.sort-item:hover{border-color:var(--blue)}
+.sort-item.dragging{opacity:.35}
+.sort-item.correct-pos{border-color:var(--green);background:rgba(58,166,117,.08)}
+.sort-handle{color:var(--muted);font-size:1.1rem;flex-shrink:0}
+
+/* ── PUNNETT ── */
+.punnett-cell{width:68px;height:68px;border:2px solid var(--line);border-radius:8px;text-align:center;vertical-align:middle;cursor:pointer;font-weight:900;font-size:1.1rem;transition:all .2s}
+.punnett-cell:hover{border-color:var(--yellow)}
+
+/* ── CLUE BOX ── */
+.clue-box{background:rgba(56,254,220,.05);border:2px solid var(--among-cyan);border-radius:12px;padding:14px 18px;margin:16px 0;display:none}
+.clue-box.show{display:block}
+.clue-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--among-cyan);font-weight:700;margin-bottom:4px}
+.clue-val{font-size:1.5rem;font-weight:900;font-family:monospace;color:var(--among-cyan);letter-spacing:6px}
+
+/* ── HINT ── */
+.hint-btn{background:none;border:1px solid var(--line);border-radius:20px;color:var(--muted);padding:5px 13px;font-size:.8rem;cursor:pointer;transition:all .2s;margin-top:8px}
+.hint-btn:hover{border-color:var(--blue);color:var(--blue)}
+.hint-box{background:rgba(77,150,209,.06);border:1px solid var(--blue);border-radius:10px;padding:11px 15px;margin:8px 0;display:none;color:#9ecdee;font-size:.9rem}
+.hint-box.show{display:block}
+
+/* ── NEXT BTN ── */
+.next-btn{display:none;background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;font-weight:700;padding:13px 28px;border-radius:40px;border:none;cursor:pointer;font-size:.98rem;margin-top:14px;transition:transform .15s}
+.next-btn.show{display:inline-block}
+.next-btn:hover{transform:translateY(-2px)}
+
+/* ── FINAL ── */
+#final-screen{display:none;text-align:center;padding:60px 24px;min-height:80vh;flex-direction:column;align-items:center;justify-content:center}
+#final-screen.show{display:flex}
+.victory-crew{display:flex;gap:16px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.victory-crew .crewmate{animation:bob .8s ease-in-out infinite alternate}
+.victory-crew .crewmate:nth-child(2){animation-delay:.15s}
+.victory-crew .crewmate:nth-child(3){animation-delay:.3s}
+.victory-crew .crewmate:nth-child(4){animation-delay:.45s}
+.victory-crew .crewmate:nth-child(5){animation-delay:.6s}
+.final-code{font-family:monospace;font-size:2.2rem;font-weight:900;letter-spacing:8px;color:var(--among-cyan);background:var(--card);border:2px solid var(--among-cyan);border-radius:var(--radius);padding:18px 32px;margin:20px 0;text-shadow:0 0 20px rgba(56,254,220,.5);box-shadow:0 0 30px rgba(56,254,220,.15)}
+.summary-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 24px;max-width:480px;text-align:left;margin-top:20px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .game-content{padding:20px 12px}
+  .drop-zones{grid-template-columns:1fr}
+  .match-area{grid-template-columns:1fr}
+  .ch-hero .crew-scene{display:none}
+  .code-box{width:38px;height:46px;font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING CREWMATES -->
+<img src="../img/among-idle.png" class="crew-corner" alt="">
+<img src="../img/among-idle.png" class="crew-left" alt="">
+
+<!-- ═══════ INTRO ═══════ -->
+<section id="intro">
+  <div class="intro-crew-row">
+    <div class="crewmate crew-red crew-bounce"><img src="../img/among-idle.png" width="64" alt="rojo"></div>
+    <div class="crewmate crew-cyan crew-bounce"><img src="../img/among-idle.png" width="64" alt="cyan"></div>
+    <div class="crewmate crew-lime crew-bounce"><img src="../img/among-idle.png" width="64" alt="lime"></div>
+    <div class="crewmate crew-purple crew-bounce"><img src="../img/among-idle.png" width="64" alt="morado"></div>
+  </div>
+
+  <h1>🚀 <span class="red">AMONG</span> <span class="cyan">BIO</span></h1>
+  <p class="subtitle">Biología y Geología · 4º ESO · Escape Room digital</p>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:4px">5 tareas · 10 caracteres · La nave no puede esperar</p>
+
+  <div class="emergency-panel">
+    <p>🔴 Alerta en la nave. Un impostor ha bloqueado el sistema de vida.<br>
+    Para restaurarlo, los tripulantes deben completar <strong>5 tareas de biología</strong>.<br>
+    Cada tarea revela <strong>2 caracteres</strong> del código de emergencia de 10 dígitos.</p>
+    <br>
+    <p><em>"Solo quienes entiendan la vida podrán salvarla.<br>
+    El impostor ya está entre vosotros… ¿o eres tú?"</em></p>
+    <p class="firma">— Sistema de IA de la nave Skeld</p>
+  </div>
+
+  <div class="code-strip" id="code-preview">
+    <div class="code-box" id="cb0">?</div><div class="code-box" id="cb1">?</div>
+    <div class="code-sep">·</div>
+    <div class="code-box" id="cb2">?</div><div class="code-box" id="cb3">?</div>
+    <div class="code-sep">·</div>
+    <div class="code-box" id="cb4">?</div><div class="code-box" id="cb5">?</div>
+    <div class="code-sep">·</div>
+    <div class="code-box" id="cb6">?</div><div class="code-box" id="cb7">?</div>
+    <div class="code-sep">·</div>
+    <div class="code-box" id="cb8">?</div><div class="code-box" id="cb9">?</div>
+  </div>
+
+  <button class="btn" onclick="startGame()">🚨 Iniciar protocolo de emergencia</button>
+</section>
+
+<!-- ═══════ GAME ═══════ -->
+<div id="game">
+  <div class="topbar">
+    <div class="topbar-left">
+      <img src="../img/among-idle.png" class="topbar-crew" alt="">
+      <div>
+        <div class="ch-sub" id="top-label">Tarea 1 / 5</div>
+        <h2 id="top-title">El reactor de biomoléculas</h2>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="progress-dots">
+        <div class="dot active" id="dot0"></div><div class="dot" id="dot1"></div>
+        <div class="dot" id="dot2"></div><div class="dot" id="dot3"></div>
+        <div class="dot" id="dot4"></div>
+      </div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </div>
+
+  <div class="game-content">
+
+    <!-- ═══ TAREA 1 ═══ -->
+    <div class="challenge active" id="ch1">
+      <div class="ch-hero">
+        <div class="crew-scene"><div class="crewmate crew-red"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="ch-hero-text">
+          <div class="ch-num">Tarea 1 · Biomoléculas y Células</div>
+          <div class="ch-title">⚗️ El reactor de biomoléculas</div>
+          <div class="ch-story">El reactor de la nave usa biomoléculas para generar energía. El impostor ha mezclado los ingredientes. Demuestra que conoces la química de la vida.</div>
+        </div>
+      </div>
+      <div class="ch-bar"></div>
+
+      <div class="puzzle-box">
+        <h4>Parte A — ¿Sabías esto? Elige la respuesta correcta</h4>
+        <div class="puzzle-q">🤯 ¿Qué porcentaje aproximado del cuerpo humano es agua?</div>
+        <div class="options" id="opts-a1">
+          <div class="opt" onclick="pickOpt(this,'a1','w')"><span class="lt">A</span>Alrededor del 30 %</div>
+          <div class="opt" onclick="pickOpt(this,'a1','c')"><span class="lt">B</span>Alrededor del 60–70 %</div>
+          <div class="opt" onclick="pickOpt(this,'a1','w')"><span class="lt">C</span>Alrededor del 90 %</div>
+          <div class="opt" onclick="pickOpt(this,'a1','w')"><span class="lt">D</span>Menos del 10 %</div>
+        </div>
+        <div class="puzzle-q">🧬 El ADN de una sola célula humana, extendido, mide aproximadamente…</div>
+        <div class="options" id="opts-a2">
+          <div class="opt" onclick="pickOpt(this,'a2','w')"><span class="lt">A</span>1 milímetro</div>
+          <div class="opt" onclick="pickOpt(this,'a2','w')"><span class="lt">B</span>10 centímetros</div>
+          <div class="opt" onclick="pickOpt(this,'a2','c')"><span class="lt">C</span>Unos 2 metros</div>
+          <div class="opt" onclick="pickOpt(this,'a2','w')"><span class="lt">D</span>Más de 1 kilómetro</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkA()">Comprobar respuestas</button>
+        <div class="result-hint" id="res-a"></div>
+      </div>
+
+      <div class="puzzle-box locked" id="p1b">
+        <h4>Parte B — Clasifica las biomoléculas por función</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Arrastra cada biomolécula a su función principal.</p>
+        <div class="drag-pool" id="pool-bm">
+          <div class="drag-item" draggable="true" data-val="Glucosa">🟡 Glucosa</div>
+          <div class="drag-item" draggable="true" data-val="Glucógeno">🟠 Glucógeno</div>
+          <div class="drag-item" draggable="true" data-val="Fosfolípido">🔵 Fosfolípido</div>
+          <div class="drag-item" draggable="true" data-val="Colágeno">⚪ Colágeno</div>
+          <div class="drag-item" draggable="true" data-val="ADN">🟣 ADN</div>
+          <div class="drag-item" draggable="true" data-val="Celulosa">🟢 Celulosa</div>
+        </div>
+        <div class="drop-zones">
+          <div><div class="zone-label" style="color:var(--yellow)">⚡ Energía inmediata</div><div class="drop-zone" id="zone-energia"></div></div>
+          <div><div class="zone-label" style="color:var(--blue)">🏗️ Estructura</div><div class="drop-zone" id="zone-estructura"></div></div>
+          <div><div class="zone-label" style="color:var(--purple)">💾 Información/Membrana</div><div class="drop-zone" id="zone-info"></div></div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkBM()">Comprobar clasificación</button>
+        <div class="result-hint" id="res-bm"></div>
+      </div>
+
+      <div class="clue-box" id="clue1"><div class="clue-label">🔐 Código desbloqueado — Caracteres 1 y 2</div><div class="clue-val" id="clue1-val">? ?</div></div>
+      <button class="hint-btn" onclick="toggleHint('hint1')">💡 Pista de emergencia</button>
+      <div class="hint-box" id="hint1">El cuerpo humano es ~65 % agua. El ADN de una célula mide ~2 m pero está compactado en cromosomas. Biomoléculas: glucosa = energía rápida; glucógeno, colágeno y celulosa = estructura; fosfolípido = membrana; ADN = información.</div>
+      <button class="next-btn" id="next1" onclick="goTo(2)">Siguiente tarea →</button>
+    </div>
+
+    <!-- ═══ TAREA 2 ═══ -->
+    <div class="challenge" id="ch2">
+      <div class="ch-hero">
+        <div class="crew-scene"><div class="crewmate crew-lime"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="ch-hero-text">
+          <div class="ch-num">Tarea 2 · Unidad 2 — Células</div>
+          <div class="ch-title">🔬 La célula infiltrada</div>
+          <div class="ch-story">El impostor se ha colado en la sala médica disfrazado de orgánulo. Solo quien sepa qué orgánulos son exclusivos de cada célula podrá expulsarlo.</div>
+        </div>
+      </div>
+      <div class="ch-bar" style="background:var(--green)"></div>
+
+      <div class="puzzle-box">
+        <h4>Parte A — Clasifica los orgánulos</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Arrastra cada orgánulo al contenedor correcto.</p>
+        <div class="drag-pool" id="pool-org">
+          <div class="drag-item" draggable="true" data-val="Centrosoma">🔵 Centrosoma</div>
+          <div class="drag-item" draggable="true" data-val="Cloroplasto">🟢 Cloroplasto</div>
+          <div class="drag-item" draggable="true" data-val="Mitocondria">🔴 Mitocondria</div>
+          <div class="drag-item" draggable="true" data-val="Pared celular">🟤 Pared celular</div>
+          <div class="drag-item" draggable="true" data-val="Ribosoma">⚪ Ribosoma</div>
+          <div class="drag-item" draggable="true" data-val="Vacuola grande">💧 Vacuola grande</div>
+        </div>
+        <div class="drop-zones">
+          <div><div class="zone-label" style="color:var(--red)">🐾 Solo ANIMAL</div><div class="drop-zone" id="zone-animal"></div></div>
+          <div><div class="zone-label" style="color:var(--green)">🌿 Solo VEGETAL</div><div class="drop-zone" id="zone-vegetal"></div></div>
+          <div><div class="zone-label" style="color:var(--blue)">🔄 AMBAS</div><div class="drop-zone" id="zone-comun"></div></div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkOrg()">Comprobar clasificación</button>
+        <div class="result-hint" id="res-org"></div>
+      </div>
+
+      <div class="puzzle-box locked" id="p2b">
+        <h4>Parte B — ¿Quién es el impostor celular?</h4>
+        <div class="puzzle-q">🚨 Una de estas afirmaciones es FALSA (es el impostor). ¿Cuál?</div>
+        <div class="options" id="opts-imp">
+          <div class="opt" onclick="pickOpt(this,'imp','w')"><span class="lt">A</span>Las mitocondrias tienen su propio ADN, como las bacterias</div>
+          <div class="opt" onclick="pickOpt(this,'imp','w')"><span class="lt">B</span>Robert Hooke acuñó el término "célula" al observar corcho</div>
+          <div class="opt" onclick="pickOpt(this,'imp','c')"><span class="lt">C</span>Los ribosomas están rodeados de membrana y solo aparecen en eucariotas</div>
+          <div class="opt" onclick="pickOpt(this,'imp','w')"><span class="lt">D</span>El ADN se encuentra como cromatina cuando la célula no se divide</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkImp()">¡Votar al impostor!</button>
+        <div class="result-hint" id="res-imp"></div>
+      </div>
+
+      <div class="clue-box" id="clue2"><div class="clue-label">🔐 Código desbloqueado — Caracteres 3 y 4</div><div class="clue-val" id="clue2-val">? ?</div></div>
+      <button class="hint-btn" onclick="toggleHint('hint2')">💡 Pista de emergencia</button>
+      <div class="hint-box" id="hint2">Exclusivo animal: centrosoma. Exclusivo vegetal: cloroplasto, pared celular, vacuola grande. Compartidos: mitocondria, ribosoma. El impostor: los ribosomas NO tienen membrana y están en TODAS las células (también procariotas).</div>
+      <button class="next-btn" id="next2" onclick="goTo(3)">Siguiente tarea →</button>
+    </div>
+
+    <!-- ═══ TAREA 3 ═══ -->
+    <div class="challenge" id="ch3">
+      <div class="ch-hero">
+        <div class="crew-scene"><div class="crewmate crew-purple"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="ch-hero-text">
+          <div class="ch-num">Tarea 3 · Unidad 3 — Divisiones Celulares</div>
+          <div class="ch-title">🔄 El reloj de la mitosis</div>
+          <div class="ch-story">El impostor ha reordenado el manual de divisiones. Repara el reloj biológico poniendo las fases en orden y calculando los cromosomas.</div>
+        </div>
+      </div>
+      <div class="ch-bar" style="background:var(--purple)"></div>
+
+      <div class="puzzle-box">
+        <h4>Parte A — Ordena las fases de la mitosis</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Arrastra las tarjetas hasta colocarlas en el orden correcto.</p>
+        <div class="sort-list" id="mitosis-sort">
+          <div class="sort-item" draggable="true" data-phase="Profase"><span class="sort-handle">☰</span><div><b>Profase</b> — Cromatina se condensa; desaparece el núcleo; se forma el huso.</div></div>
+          <div class="sort-item" draggable="true" data-phase="Telofase"><span class="sort-handle">☰</span><div><b>Telofase</b> — Las cromátidas se descondensan; se reforman las membranas nucleares.</div></div>
+          <div class="sort-item" draggable="true" data-phase="Anafase"><span class="sort-handle">☰</span><div><b>Anafase</b> — El huso arrastra las cromátidas hermanas a polos opuestos.</div></div>
+          <div class="sort-item" draggable="true" data-phase="Citocinesis"><span class="sort-handle">☰</span><div><b>Citocinesis</b> — División del citoplasma → 2 células hijas.</div></div>
+          <div class="sort-item" draggable="true" data-phase="Metafase"><span class="sort-handle">☰</span><div><b>Metafase</b> — Los cromosomas se alinean en el ecuador.</div></div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:12px" onclick="checkMitosis()">Comprobar orden</button>
+        <div class="result-hint" id="res-mitosis"></div>
+      </div>
+
+      <div class="puzzle-box locked" id="p3b">
+        <h4>Parte B — Cálculos cromosómicos</h4>
+        <div class="puzzle-q">Si 2n = 46 (humano), ¿cuántos cromosomas tiene un gameto tras la meiosis?</div>
+        <div class="options" id="opts-c1">
+          <div class="opt" onclick="pickOpt(this,'c1','w')"><span class="lt">A</span>46 cromosomas</div>
+          <div class="opt" onclick="pickOpt(this,'c1','c')"><span class="lt">B</span>23 cromosomas</div>
+          <div class="opt" onclick="pickOpt(this,'c1','w')"><span class="lt">C</span>92 cromosomas</div>
+          <div class="opt" onclick="pickOpt(this,'c1','w')"><span class="lt">D</span>24 cromosomas</div>
+        </div>
+        <div class="puzzle-q">🤯 Si una célula sufre 4 mitosis consecutivas, ¿cuántas células obtenemos?</div>
+        <div class="options" id="opts-c2">
+          <div class="opt" onclick="pickOpt(this,'c2','w')"><span class="lt">A</span>4 células</div>
+          <div class="opt" onclick="pickOpt(this,'c2','w')"><span class="lt">B</span>8 células</div>
+          <div class="opt" onclick="pickOpt(this,'c2','c')"><span class="lt">C</span>16 células (2⁴)</div>
+          <div class="opt" onclick="pickOpt(this,'c2','w')"><span class="lt">D</span>12 células</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkCrom()">Comprobar</button>
+        <div class="result-hint" id="res-crom"></div>
+      </div>
+
+      <div class="clue-box" id="clue3"><div class="clue-label">🔐 Código desbloqueado — Caracteres 5 y 6</div><div class="clue-val" id="clue3-val">? ?</div></div>
+      <button class="hint-btn" onclick="toggleHint('hint3')">💡 Pista de emergencia</button>
+      <div class="hint-box" id="hint3">Orden: Profase → Metafase → Anafase → Telofase → Citocinesis (Pro-Meta-Ana-Telo-Cito). Meiosis: 2n → n = 23. Mitosis en serie: 2⁴ = 16.</div>
+      <button class="next-btn" id="next3" onclick="goTo(4)">Siguiente tarea →</button>
+    </div>
+
+    <!-- ═══ TAREA 4 ═══ -->
+    <div class="challenge" id="ch4">
+      <div class="ch-hero">
+        <div class="crew-scene"><div class="crewmate crew-yellow"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="ch-hero-text">
+          <div class="ch-num">Tarea 4 · Unidad 4 — Genética</div>
+          <div class="ch-title">🧬 El cruce prohibido</div>
+          <div class="ch-story">El laboratorio genético está bloqueado. El impostor mezcló el cuadro de Punnett. Resuélvelo para desvelar el código.</div>
+        </div>
+      </div>
+      <div class="ch-bar" style="background:var(--yellow)"></div>
+
+      <div class="puzzle-box">
+        <h4>Parte A — Cuadro de Punnett: Aa × Aa</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:10px">En guisantes, amarillo (A) domina sobre verde (a). Pulsa cada celda para cambiar su valor hasta completar el cruce.</p>
+        <div style="text-align:center;margin:14px 0">
+          <table style="border-collapse:collapse;margin:0 auto">
+            <tr><td style="padding:8px"></td><td style="padding:8px;text-align:center;font-weight:700;color:var(--yellow);font-size:1.1rem">A</td><td style="padding:8px;text-align:center;font-weight:700;color:var(--yellow);font-size:1.1rem">a</td></tr>
+            <tr><td style="padding:8px;text-align:center;font-weight:700;color:var(--yellow);font-size:1.1rem">A</td><td class="punnett-cell" id="pc00" onclick="cyclePunnett('pc00')"></td><td class="punnett-cell" id="pc01" onclick="cyclePunnett('pc01')"></td></tr>
+            <tr><td style="padding:8px;text-align:center;font-weight:700;color:var(--yellow);font-size:1.1rem">a</td><td class="punnett-cell" id="pc10" onclick="cyclePunnett('pc10')"></td><td class="punnett-cell" id="pc11" onclick="cyclePunnett('pc11')"></td></tr>
+          </table>
+        </div>
+        <div class="puzzle-q">¿Cuál es la proporción fenotípica resultante?</div>
+        <div class="options" id="opts-g1">
+          <div class="opt" onclick="pickOpt(this,'g1','w')"><span class="lt">A</span>1 amarillo : 1 verde</div>
+          <div class="opt" onclick="pickOpt(this,'g1','c')"><span class="lt">B</span>3 amarillos : 1 verde</div>
+          <div class="opt" onclick="pickOpt(this,'g1','w')"><span class="lt">C</span>Todos amarillos</div>
+          <div class="opt" onclick="pickOpt(this,'g1','w')"><span class="lt">D</span>2 amarillos : 2 verdes</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkGen1()">Comprobar</button>
+        <div class="result-hint" id="res-g1"></div>
+      </div>
+
+      <div class="puzzle-box locked" id="p4b">
+        <h4>Parte B — Complemento del ADN</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:10px">Una cadena de ADN: <code style="background:var(--card);padding:2px 8px;border-radius:4px;color:var(--yellow)">A–T–G–C–A–T</code></p>
+        <div class="puzzle-q">¿Cuál es su cadena complementaria en el ADN?</div>
+        <div class="options" id="opts-g2">
+          <div class="opt" onclick="pickOpt(this,'g2','w')"><span class="lt">A</span>A–T–G–C–A–T (idéntica)</div>
+          <div class="opt" onclick="pickOpt(this,'g2','c')"><span class="lt">B</span>T–A–C–G–T–A</div>
+          <div class="opt" onclick="pickOpt(this,'g2','w')"><span class="lt">C</span>U–A–C–G–U–A (esto sería ARN)</div>
+          <div class="opt" onclick="pickOpt(this,'g2','w')"><span class="lt">D</span>T–T–C–C–T–T</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkGen2()">Comprobar</button>
+        <div class="result-hint" id="res-g2"></div>
+      </div>
+
+      <div class="clue-box" id="clue4"><div class="clue-label">🔐 Código desbloqueado — Caracteres 7 y 8</div><div class="clue-val" id="clue4-val">? ?</div></div>
+      <button class="hint-btn" onclick="toggleHint('hint4')">💡 Pista de emergencia</button>
+      <div class="hint-box" id="hint4">Punnett Aa×Aa: fila A → AA, Aa; fila a → Aa, aa. AA y Aa son amarillos (dominante), solo aa es verde → 3:1. En ADN: A↔T, G↔C. El U es del ARN.</div>
+      <button class="next-btn" id="next4" onclick="goTo(5)">Siguiente tarea →</button>
+    </div>
+
+    <!-- ═══ TAREA 5 ═══ -->
+    <div class="challenge" id="ch5">
+      <div class="ch-hero">
+        <div class="crew-scene"><div class="crewmate crew-red"><img src="../img/among-ghost.png" width="70" alt=""></div></div>
+        <div class="ch-hero-text">
+          <div class="ch-num">Tarea 5 · Unidades 5, 6 y 7 — Fósiles, Historia y Evolución</div>
+          <div class="ch-title">🦕 El árbol de la vida</div>
+          <div class="ch-story">La sala de archivos guarda millones de años de evolución. El fantasma del impostor eyectado aún ronda… ¿sabes más que él?</div>
+        </div>
+      </div>
+      <div class="ch-bar" style="background:var(--teal)"></div>
+
+      <div class="puzzle-box">
+        <h4>Parte A — Empareja cada teoría con su autor</h4>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Pulsa un nombre y luego su descripción correcta.</p>
+        <div class="match-area">
+          <div class="match-col" id="match-left-5">
+            <div class="match-item" data-id="L" onclick="matchClick('L','left',5)"><b>Lamarck</b></div>
+            <div class="match-item" data-id="D" onclick="matchClick('D','left',5)"><b>Darwin</b></div>
+            <div class="match-item" data-id="S" onclick="matchClick('S','left',5)"><b>Teoría Sintética</b></div>
+          </div>
+          <div class="match-col" id="match-right-5">
+            <div class="match-item" data-id="t1" onclick="matchClick('t1','right',5)">Selección natural: los mejor adaptados sobreviven y dejan más descendencia</div>
+            <div class="match-item" data-id="t2" onclick="matchClick('t2','right',5)">Los órganos más usados se desarrollan; los que no se usan se atrofian</div>
+            <div class="match-item" data-id="t3" onclick="matchClick('t3','right',5)">Une genética mendeliana + selección natural + mutaciones</div>
+          </div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:12px" onclick="checkEvol1()">Comprobar emparejamiento</button>
+        <div class="result-hint" id="res-evol1"></div>
+      </div>
+
+      <div class="puzzle-box locked" id="p5b">
+        <h4>Parte B — Fósiles y tiempo geológico</h4>
+        <div class="puzzle-q">¿Qué principio establece que los estratos más profundos son los más antiguos?</div>
+        <div class="options" id="opts-e2">
+          <div class="opt" onclick="pickOpt(this,'e2','w')"><span class="lt">A</span>Principio de identidad paleontológica</div>
+          <div class="opt" onclick="pickOpt(this,'e2','c')"><span class="lt">B</span>Principio de superposición de estratos</div>
+          <div class="opt" onclick="pickOpt(this,'e2','w')"><span class="lt">C</span>Principio de horizontalidad</div>
+          <div class="opt" onclick="pickOpt(this,'e2','w')"><span class="lt">D</span>Principio de correlación litológica</div>
+        </div>
+        <div class="puzzle-q">🤯 ¿En qué era se produce la explosión del Cámbrico, con casi todos los filos animales?</div>
+        <div class="options" id="opts-e3">
+          <div class="opt" onclick="pickOpt(this,'e3','w')"><span class="lt">A</span>Precámbrico</div>
+          <div class="opt" onclick="pickOpt(this,'e3','c')"><span class="lt">B</span>Paleozoico (inicio)</div>
+          <div class="opt" onclick="pickOpt(this,'e3','w')"><span class="lt">C</span>Mesozoico</div>
+          <div class="opt" onclick="pickOpt(this,'e3','w')"><span class="lt">D</span>Cenozoico</div>
+        </div>
+        <button class="btn green-btn" style="font-size:.88rem;padding:10px 22px;margin-top:10px" onclick="checkEvol2()">Comprobar respuestas finales</button>
+        <div class="result-hint" id="res-evol2"></div>
+      </div>
+
+      <div class="clue-box" id="clue5"><div class="clue-label">🔐 Código desbloqueado — Caracteres 9 y 10</div><div class="clue-val" id="clue5-val">? ?</div></div>
+      <button class="hint-btn" onclick="toggleHint('hint5')">💡 Pista de emergencia</button>
+      <div class="hint-box" id="hint5">Lamarck = uso y desuso (cuello de la jirafa). Darwin = selección natural (1859). Teoría Sintética = Darwin + Mendel + mutaciones. Superposición: más profundo = más antiguo. La explosión del Cámbrico abre el Paleozoico.</div>
+      <button class="next-btn" id="next5" onclick="showFinal()">🚀 Restaurar sistema de vida</button>
+    </div>
+
+    <!-- ═══ FINAL ═══ -->
+    <div id="final-screen">
+      <div class="victory-crew">
+        <div class="crewmate crew-red"><img src="../img/among-idle.png" width="72" alt=""></div>
+        <div class="crewmate crew-cyan"><img src="../img/among-idle.png" width="72" alt=""></div>
+        <div class="crewmate crew-lime"><img src="../img/among-idle.png" width="72" alt=""></div>
+        <div class="crewmate crew-yellow"><img src="../img/among-idle.png" width="72" alt=""></div>
+        <div class="crewmate crew-purple"><img src="../img/among-idle.png" width="72" alt=""></div>
+      </div>
+      <h2 style="font-size:2.2rem;font-weight:900;margin-bottom:6px">¡IMPOSTOR EYECTADO!</h2>
+      <p style="color:var(--among-cyan);font-size:1.1rem;font-weight:700">🎉 La nave está a salvo. ¡Habéis escapado!</p>
+      <p style="color:var(--muted);max-width:440px;margin:8px auto 0;font-size:.93rem">El sistema de vida ha sido restaurado gracias a vuestro conocimiento de biología.</p>
+      <div class="final-code" id="final-code-display">??????????</div>
+      <p style="color:var(--muted);font-size:.9rem">Tiempo: <span id="final-time" style="color:var(--yellow);font-weight:700"></span></p>
+      <div class="summary-box">
+        <div style="font-weight:700;margin-bottom:10px;color:var(--among-cyan);font-size:.9rem;text-transform:uppercase;letter-spacing:1px">🔑 Resumen del código</div>
+        <div id="code-summary" style="display:flex;flex-direction:column;gap:6px;font-size:.88rem"></div>
+      </div>
+      <button class="btn" style="margin-top:24px" onclick="location.reload()">🔄 Nueva partida</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// CÓDIGO FINAL: R4V2M8G3E7
+const CODE = ['R','4','V','2','M','8','G','3','E','7'];
+const CLUE_LABELS = [
+  'Tarea 1 — Biomoléculas: R · 4',
+  'Tarea 2 — Células: V · 2',
+  'Tarea 3 — Divisiones celulares: M · 8',
+  'Tarea 4 — Genética: G · 3',
+  'Tarea 5 — Evolución: E · 7',
+];
+
+let seconds = 0, timerInterval;
+let draggedEl = null;
+const matchState = {};
+const optLocked = {};
+const punnettOpts = ['AA','Aa','aA','aa'];
+const punnettIdx = {pc00:0,pc01:0,pc10:0,pc11:0};
+const punnettAns = {pc00:'AA',pc01:'Aa',pc10:'Aa',pc11:'aa'};
+
+function startGame(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('game').style.display='block';
+  timerInterval = setInterval(()=>{
+    seconds++;
+    const m=String(Math.floor(seconds/60)).padStart(2,'0');
+    const s=String(seconds%60).padStart(2,'0');
+    document.getElementById('timer').textContent=m+':'+s;
+  },1000);
+}
+
+const TITLES = ['','El reactor de biomoléculas','La célula infiltrada','El reloj de la mitosis','El cruce prohibido','El árbol de la vida'];
+function goTo(n){
+  document.getElementById('ch'+(n-1)).classList.remove('active');
+  document.getElementById('ch'+n).classList.add('active');
+  document.getElementById('top-label').textContent='Tarea '+n+' / 5';
+  document.getElementById('top-title').textContent=TITLES[n];
+  for(let i=0;i<5;i++){
+    const d=document.getElementById('dot'+i);
+    d.className='dot'+(i<n-1?' done':i===n-1?' active':'');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function unlockClue(prueba){
+  const c1=CODE[(prueba-1)*2], c2=CODE[(prueba-1)*2+1];
+  document.getElementById('clue'+prueba).classList.add('show');
+  document.getElementById('clue'+prueba+'-val').textContent=c1+' · '+c2;
+  const i=(prueba-1)*2;
+  [['cb'+i,c1],['cb'+(i+1),c2]].forEach(([id,c])=>{
+    const el=document.getElementById(id); el.textContent=c; el.classList.add('filled');
+  });
+  const nb=document.getElementById('next'+prueba);
+  if(nb) nb.classList.add('show');
+}
+
+function toggleHint(id){ document.getElementById(id).classList.toggle('show'); }
+
+function pickOpt(el,group,ans){
+  if(optLocked[group]) return;
+  document.querySelectorAll('#opts-'+group+' .opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected'); el.dataset.a=ans;
+}
+function selAns(group){ const s=document.querySelector('#opts-'+group+' .opt.selected'); return s?s.dataset.a:null; }
+function lockOpts(group){ optLocked[group]=true; document.querySelectorAll('#opts-'+group+' .opt').forEach(o=>o.style.pointerEvents='none'); }
+function showRes(id,ok,okMsg,errMsg){
+  const el=document.getElementById(id);
+  el.textContent=ok?okMsg:errMsg;
+  el.className='result-hint show'+(ok?'':' err');
+}
+
+// DRAG
+function makeDraggable(item){
+  item.addEventListener('dragstart',e=>{draggedEl=item;setTimeout(()=>item.classList.add('dragging'),0);e.dataTransfer.effectAllowed='move';});
+  item.addEventListener('dragend',()=>{item.classList.remove('dragging');draggedEl=null;});
+}
+function initZoneDrop(poolId, zoneIds){
+  const pool=document.getElementById(poolId);
+  pool.querySelectorAll('.drag-item').forEach(makeDraggable);
+  [pool,...zoneIds.map(id=>document.getElementById(id))].forEach(zone=>{
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+    zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('over');if(draggedEl) zone.appendChild(draggedEl);});
+  });
+}
+
+// TAREA 1
+initZoneDrop('pool-bm',['zone-energia','zone-estructura','zone-info']);
+const bmCorrect={'Glucosa':'energia','Glucógeno':'estructura','Fosfolípido':'info','Colágeno':'estructura','ADN':'info','Celulosa':'estructura'};
+function checkA(){
+  const q1=selAns('a1'),q2=selAns('a2');
+  if(!q1||!q2){showRes('res-a',false,'','⚠️ Selecciona una respuesta en cada pregunta.');return;}
+  if(q1==='c'&&q2==='c'){
+    showRes('res-a',true,'✅ ¡Correcto! El cuerpo es ~65 % agua y el ADN de una célula mide ~2 m. Ahora clasifica las biomoléculas.','');
+    lockOpts('a1');lockOpts('a2');
+    document.getElementById('p1b').classList.remove('locked');
+  } else showRes('res-a',false,'','❌ Alguna respuesta falla. El agua es el compuesto más abundante y el ADN es sorprendentemente largo.');
+}
+function checkBM(){
+  let ok=true;
+  Object.entries(bmCorrect).forEach(([name,zone])=>{
+    const found=[...document.getElementById('zone-'+zone).querySelectorAll('.drag-item')].some(i=>i.dataset.val===name);
+    if(!found) ok=false;
+  });
+  if(ok){ showRes('res-bm',true,'✅ ¡Clasificación perfecta! Caracteres 1 y 2 desbloqueados.',''); unlockClue(1); }
+  else showRes('res-bm',false,'','❌ Hay alguna biomolécula mal colocada. Glucosa = energía; glucógeno/colágeno/celulosa = estructura; fosfolípido/ADN = membrana/info.');
+}
+
+// TAREA 2
+initZoneDrop('pool-org',['zone-animal','zone-vegetal','zone-comun']);
+const orgCorrect={'Centrosoma':'animal','Cloroplasto':'vegetal','Mitocondria':'comun','Pared celular':'vegetal','Ribosoma':'comun','Vacuola grande':'vegetal'};
+function checkOrg(){
+  let ok=true;
+  Object.entries(orgCorrect).forEach(([name,zone])=>{
+    const found=[...document.getElementById('zone-'+zone).querySelectorAll('.drag-item')].some(i=>i.dataset.val===name);
+    if(!found) ok=false;
+  });
+  if(ok){ showRes('res-org',true,'✅ ¡Perfecto! Ahora identifica al impostor celular.',''); document.getElementById('p2b').classList.remove('locked'); }
+  else showRes('res-org',false,'','❌ Algún orgánulo está mal. Solo el centrosoma es exclusivo animal; cloroplasto, pared y vacuola grande son vegetales; mitocondria y ribosoma, ambas.');
+}
+function checkImp(){
+  const ans=selAns('imp');
+  if(!ans){showRes('res-imp',false,'','⚠️ Selecciona la afirmación falsa.');return;}
+  if(ans==='c'){ showRes('res-imp',true,'✅ ¡Impostor eyectado! Los ribosomas NO tienen membrana y están en TODAS las células. Caracteres 3 y 4 tuyos.',''); lockOpts('imp'); unlockClue(2); }
+  else showRes('res-imp',false,'','❌ Esa afirmación es verdadera. El impostor dice que los ribosomas tienen membrana — ¡no la tienen!');
+}
+
+// TAREA 3
+let mitDragged=null;
+document.querySelectorAll('#mitosis-sort .sort-item').forEach(item=>{
+  item.addEventListener('dragstart',e=>{mitDragged=item;setTimeout(()=>item.classList.add('dragging'),0);});
+  item.addEventListener('dragend',()=>{item.classList.remove('dragging');mitDragged=null;});
+  item.addEventListener('dragover',e=>e.preventDefault());
+  item.addEventListener('drop',e=>{
+    e.preventDefault();
+    if(!mitDragged||mitDragged===item)return;
+    const cont=item.parentNode, items=[...cont.children];
+    const fi=items.indexOf(mitDragged),ti=items.indexOf(item);
+    if(fi<ti) cont.insertBefore(mitDragged,item.nextSibling); else cont.insertBefore(mitDragged,item);
+  });
+});
+const MITOSIS_ORDER=['Profase','Metafase','Anafase','Telofase','Citocinesis'];
+function checkMitosis(){
+  const items=[...document.querySelectorAll('#mitosis-sort .sort-item')];
+  const ok=items.every((item,i)=>item.dataset.phase===MITOSIS_ORDER[i]);
+  if(ok){ items.forEach(i=>i.classList.add('correct-pos')); showRes('res-mitosis',true,'✅ ¡Orden correcto! Pro→Meta→Ana→Telo→Cito. Ahora los cálculos.',''); document.getElementById('p3b').classList.remove('locked'); }
+  else showRes('res-mitosis',false,'','❌ El orden no es correcto. Truco: "Pro-Meta-Ana-Telo-Cito".');
+}
+function checkCrom(){
+  const q1=selAns('c1'),q2=selAns('c2');
+  if(!q1||!q2){showRes('res-crom',false,'','⚠️ Selecciona ambas respuestas.');return;}
+  if(q1==='c'&&q2==='c'){ showRes('res-crom',true,'✅ ¡Exacto! 2n=46 → n=23. Y 2⁴=16 células. Caracteres 5 y 6 desbloqueados.',''); lockOpts('c1');lockOpts('c2'); unlockClue(3); }
+  else showRes('res-crom',false,'','❌ Meiosis divide a la mitad (2n→n). Cada mitosis dobla: 2⁴=16.');
+}
+
+// TAREA 4
+function cyclePunnett(id){
+  punnettIdx[id]=(punnettIdx[id]+1)%4;
+  const val=punnettOpts[punnettIdx[id]];
+  const cell=document.getElementById(id);
+  cell.textContent=val||'';
+  cell.style.color=val?(val===punnettAns[id]?'var(--green)':'var(--text)'):'var(--muted)';
+}
+function checkGen1(){
+  const pOk=Object.keys(punnettAns).every(k=>punnettOpts[punnettIdx[k]]===punnettAns[k]);
+  const q=selAns('g1');
+  if(!pOk){showRes('res-g1',false,'','❌ El cuadro de Punnett no está completo. Pulsa las celdas: fila A → AA, Aa; fila a → Aa, aa.');return;}
+  if(!q){showRes('res-g1',false,'','⚠️ Selecciona también la proporción fenotípica.');return;}
+  if(q==='c'){ showRes('res-g1',true,'✅ ¡Perfecto! AA, Aa, Aa, aa → 3 amarillos : 1 verde. Ahora el complemento del ADN.',''); lockOpts('g1'); document.getElementById('p4b').classList.remove('locked'); }
+  else showRes('res-g1',false,'','❌ AA y Aa son amarillos (dominante A); solo aa es verde.');
+}
+function checkGen2(){
+  const q=selAns('g2');
+  if(!q){showRes('res-g2',false,'','⚠️ Selecciona la cadena complementaria.');return;}
+  if(q==='c'){ showRes('res-g2',true,'✅ ¡Correcto! A↔T y G↔C → T–A–C–G–T–A. Caracteres 7 y 8 desbloqueados.',''); lockOpts('g2'); unlockClue(4); }
+  else showRes('res-g2',false,'','❌ En ADN: A↔T, G↔C. El U es del ARN.');
+}
+
+// TAREA 5
+matchState[5]={correct:{L:'t2',D:'t1',S:'t3'},selected:null,side:null,pairs:{},done:false};
+function matchClick(id,side,puz){
+  const st=matchState[puz];
+  if(!st||st.done)return;
+  const el=document.querySelector('#match-'+side+'-'+puz+' [data-id="'+id+'"]');
+  if(el.classList.contains('paired'))return;
+  if(st.selected===null||st.side===side){
+    document.querySelectorAll('#match-'+side+'-'+puz+' .match-item').forEach(e=>e.classList.remove('active'));
+    st.selected=id;st.side=side;el.classList.add('active');
+  } else {
+    const lId=side==='right'?st.selected:id;
+    const rId=side==='right'?id:st.selected;
+    const lEl=document.querySelector('#match-left-'+puz+' [data-id="'+lId+'"]');
+    const rEl=document.querySelector('#match-right-'+puz+' [data-id="'+rId+'"]');
+    if(st.correct[lId]===rId){
+      lEl.classList.add('paired');lEl.classList.remove('active');rEl.classList.add('paired');
+      st.pairs[lId]=rId;
+      if(Object.keys(st.pairs).length===Object.keys(st.correct).length){
+        st.done=true;
+        showRes('res-evol1',true,'✅ ¡Emparejamiento perfecto! Ahora responde las últimas preguntas.','');
+        document.getElementById('p5b').classList.remove('locked');
+      }
+    } else {
+      lEl.classList.add('wrong-pair');rEl.classList.add('wrong-pair');
+      setTimeout(()=>{lEl.classList.remove('wrong-pair','active');rEl.classList.remove('wrong-pair');},900);
+    }
+    st.selected=null;st.side=null;
+  }
+}
+function checkEvol1(){
+  if(!matchState[5]?.done) showRes('res-evol1',false,'','⚠️ Empareja todos los autores: pulsa el nombre y luego la descripción.');
+}
+function checkEvol2(){
+  const q2=selAns('e2'),q3=selAns('e3');
+  if(!q2||!q3){showRes('res-evol2',false,'','⚠️ Selecciona ambas respuestas.');return;}
+  if(q2==='c'&&q3==='c'){ showRes('res-evol2',true,'✅ ¡Magnífico! Superposición y explosión del Cámbrico en el Paleozoico. ¡Código completo!',''); lockOpts('e2');lockOpts('e3'); unlockClue(5); }
+  else showRes('res-evol2',false,'','❌ Más profundo = más antiguo (superposición). La explosión del Cámbrico abre el Paleozoico.');
+}
+
+// FINAL
+function showFinal(){
+  clearInterval(timerInterval);
+  document.getElementById('ch5').classList.remove('active');
+  const fs=document.getElementById('final-screen');
+  fs.classList.add('show'); fs.style.display='flex';
+  document.getElementById('final-code-display').textContent=CODE.join('');
+  const m=String(Math.floor(seconds/60)).padStart(2,'0');
+  const s=String(seconds%60).padStart(2,'0');
+  document.getElementById('final-time').textContent=m+':'+s;
+  const sum=document.getElementById('code-summary');
+  CLUE_LABELS.forEach(label=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--line)';
+    row.innerHTML='<span style="color:var(--green)">✔</span><span>'+label+'</span>';
+    sum.appendChild(row);
+  });
+  for(let i=0;i<10;i++){
+    const cb=document.getElementById('cb'+i);
+    if(cb){cb.textContent=CODE[i];cb.classList.add('correct');}
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// fix data-a por si no se ha pulsado
+document.querySelectorAll('.opt').forEach(opt=>{
+  const fn=opt.getAttribute('onclick')||'';
+  opt.dataset.a=fn.includes(",'c')")?'c':'w';
+});
+</script>
+</body>
+</html>
