@@ -53,21 +53,14 @@ body::before{
 }
 
 /* ── CREWMATE TINTS ── */
-.crewmate{display:inline-block;position:relative;image-rendering:pixelated}
+.crewmate{display:inline-block;position:relative}
 .crewmate img{display:block}
-.crew-red img{filter:hue-rotate(0deg) saturate(1.8) brightness(.9) drop-shadow(0 0 6px rgba(197,17,17,.5))}
-.crew-blue img{filter:hue-rotate(220deg) saturate(2) brightness(.85) drop-shadow(0 0 6px rgba(19,46,210,.5))}
-.crew-cyan img{filter:hue-rotate(165deg) saturate(1.5) brightness(1.1) drop-shadow(0 0 6px rgba(56,254,220,.5))}
-.crew-lime img{filter:hue-rotate(100deg) saturate(1.8) brightness(1.1) drop-shadow(0 0 6px rgba(80,239,57,.5))}
-.crew-purple img{filter:hue-rotate(270deg) saturate(1.6) brightness(.9) drop-shadow(0 0 6px rgba(126,87,194,.5))}
-.crew-yellow img{filter:hue-rotate(45deg) saturate(2) brightness(1.1) drop-shadow(0 0 6px rgba(230,184,0,.4))}
-.crew-orange img{filter:hue-rotate(25deg) saturate(2) brightness(1) drop-shadow(0 0 6px rgba(240,125,13,.5))}
-.crew-pink img{filter:hue-rotate(320deg) saturate(1.4) brightness(1.1) drop-shadow(0 0 6px rgba(237,84,186,.5))}
+.crewmate img{filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
 
 /* ── FLOATING CREW ── */
-.crew-corner,.crew-left{position:fixed;bottom:20px;z-index:5;image-rendering:pixelated;opacity:.7;width:56px;animation:bob 2.1s ease-in-out infinite alternate}
-.crew-corner{right:20px;filter:hue-rotate(0deg) saturate(1.8) drop-shadow(0 0 6px rgba(197,17,17,.5))}
-.crew-left{left:20px;width:50px;animation-duration:2.5s;filter:hue-rotate(220deg) saturate(2) drop-shadow(0 0 6px rgba(19,46,210,.5))}
+.crew-corner,.crew-left{position:fixed;bottom:20px;z-index:5;opacity:.7;width:56px;animation:bob 2.1s ease-in-out infinite alternate}
+.crew-corner{right:20px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.crew-left{left:20px;width:50px;animation-duration:2.5s;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
 @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-12px)}}
 @media(max-width:600px){.crew-corner,.crew-left{display:none}}
 
@@ -108,7 +101,7 @@ body::before{
 /* ── TOPBAR ── */
 .topbar{background:rgba(10,12,22,.9);backdrop-filter:blur(10px);border-bottom:2px solid var(--among-red);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .topbar-left{display:flex;align-items:center;gap:12px}
-.topbar-crew{width:32px;height:auto;image-rendering:pixelated;filter:hue-rotate(0deg) saturate(1.8)}
+.topbar-crew{width:28px;height:auto}
 .topbar h2{font-size:.95rem;font-weight:700;color:var(--text)}
 .ch-sub{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
 .timer{font-family:monospace;font-size:1.15rem;font-weight:900;color:var(--among-cyan);min-width:60px;text-align:right}
@@ -227,16 +220,16 @@ body::before{
 <body>
 
 <!-- FLOATING CREWMATES -->
-<img src="../img/among-idle.png" class="crew-corner" alt="">
-<img src="../img/among-idle.png" class="crew-left" alt="">
+<img src="../img/crew-red.png" class="crew-corner" alt="">
+<img src="../img/crew-blue.png" class="crew-left" alt="">
 
 <!-- ═══════ INTRO ═══════ -->
 <section id="intro">
   <div class="intro-crew-row">
-    <div class="crewmate crew-red crew-bounce"><img src="../img/among-idle.png" width="64" alt="rojo"></div>
-    <div class="crewmate crew-cyan crew-bounce"><img src="../img/among-idle.png" width="64" alt="cyan"></div>
-    <div class="crewmate crew-lime crew-bounce"><img src="../img/among-idle.png" width="64" alt="lime"></div>
-    <div class="crewmate crew-purple crew-bounce"><img src="../img/among-idle.png" width="64" alt="morado"></div>
+    <div class="crewmate crew-red crew-bounce"><img src="../img/crew-red.png" width="64" alt="rojo"></div>
+    <div class="crewmate crew-cyan crew-bounce"><img src="../img/crew-cyan.png" width="64" alt="cyan"></div>
+    <div class="crewmate crew-lime crew-bounce"><img src="../img/crew-lime.png" width="64" alt="lime"></div>
+    <div class="crewmate crew-purple crew-bounce"><img src="../img/crew-purple.png" width="64" alt="morado"></div>
   </div>
 
   <h1>🚀 <span class="red">AMONG</span> <span class="cyan">BIO</span></h1>
@@ -272,7 +265,7 @@ body::before{
 <div id="game">
   <div class="topbar">
     <div class="topbar-left">
-      <img src="../img/among-idle.png" class="topbar-crew" alt="">
+      <img src="../img/crew-red.png" class="topbar-crew" alt="">
       <div>
         <div class="ch-sub" id="top-label">Tarea 1 / 5</div>
         <h2 id="top-title">El reactor de biomoléculas</h2>
@@ -293,7 +286,7 @@ body::before{
     <!-- ═══ TAREA 1 ═══ -->
     <div class="challenge active" id="ch1">
       <div class="ch-hero">
-        <div class="crew-scene"><div class="crewmate crew-red"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="crew-scene"><div class="crewmate crew-red"><img src="../img/crew-red.png" width="70" alt=""></div></div>
         <div class="ch-hero-text">
           <div class="ch-num">Tarea 1 · Biomoléculas y Células</div>
           <div class="ch-title">⚗️ El reactor de biomoléculas</div>
@@ -351,7 +344,7 @@ body::before{
     <!-- ═══ TAREA 2 ═══ -->
     <div class="challenge" id="ch2">
       <div class="ch-hero">
-        <div class="crew-scene"><div class="crewmate crew-lime"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="crew-scene"><div class="crewmate crew-lime"><img src="../img/crew-lime.png" width="70" alt=""></div></div>
         <div class="ch-hero-text">
           <div class="ch-num">Tarea 2 · Unidad 2 — Células</div>
           <div class="ch-title">🔬 La célula infiltrada</div>
@@ -402,7 +395,7 @@ body::before{
     <!-- ═══ TAREA 3 ═══ -->
     <div class="challenge" id="ch3">
       <div class="ch-hero">
-        <div class="crew-scene"><div class="crewmate crew-purple"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="crew-scene"><div class="crewmate crew-purple"><img src="../img/crew-purple.png" width="70" alt=""></div></div>
         <div class="ch-hero-text">
           <div class="ch-num">Tarea 3 · Unidad 3 — Divisiones Celulares</div>
           <div class="ch-title">🔄 El reloj de la mitosis</div>
@@ -454,7 +447,7 @@ body::before{
     <!-- ═══ TAREA 4 ═══ -->
     <div class="challenge" id="ch4">
       <div class="ch-hero">
-        <div class="crew-scene"><div class="crewmate crew-yellow"><img src="../img/among-idle.png" width="70" alt=""></div></div>
+        <div class="crew-scene"><div class="crewmate crew-yellow"><img src="../img/crew-yellow.png" width="70" alt=""></div></div>
         <div class="ch-hero-text">
           <div class="ch-num">Tarea 4 · Unidad 4 — Genética</div>
           <div class="ch-title">🧬 El cruce prohibido</div>
@@ -564,11 +557,11 @@ body::before{
     <!-- ═══ FINAL ═══ -->
     <div id="final-screen">
       <div class="victory-crew">
-        <div class="crewmate crew-red"><img src="../img/among-idle.png" width="72" alt=""></div>
-        <div class="crewmate crew-cyan"><img src="../img/among-idle.png" width="72" alt=""></div>
-        <div class="crewmate crew-lime"><img src="../img/among-idle.png" width="72" alt=""></div>
-        <div class="crewmate crew-yellow"><img src="../img/among-idle.png" width="72" alt=""></div>
-        <div class="crewmate crew-purple"><img src="../img/among-idle.png" width="72" alt=""></div>
+        <div class="crewmate crew-red"><img src="../img/crew-red.png" width="72" alt=""></div>
+        <div class="crewmate crew-cyan"><img src="../img/crew-cyan.png" width="72" alt=""></div>
+        <div class="crewmate crew-lime"><img src="../img/crew-lime.png" width="72" alt=""></div>
+        <div class="crewmate crew-yellow"><img src="../img/crew-yellow.png" width="72" alt=""></div>
+        <div class="crewmate crew-purple"><img src="../img/crew-purple.png" width="72" alt=""></div>
       </div>
       <h2 style="font-size:2.2rem;font-weight:900;margin-bottom:6px">¡IMPOSTOR EYECTADO!</h2>
       <p style="color:var(--among-cyan);font-size:1.1rem;font-weight:700">🎉 La nave está a salvo. ¡Habéis escapado!</p>
